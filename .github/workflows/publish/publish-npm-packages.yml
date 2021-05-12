@@ -1,0 +1,44 @@
+name: Publish NPM Packages
+on:
+  workflow_dispatch:
+    inputs:
+      ampversion:
+        description: "AMP version"
+        required: true
+      tag:
+        description: "NPM package tag. Enter 'latest' for Stable, 'next' for Beta, and 'dev' for Nightly"
+        required: true
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        extension: ["amp-esther", "amp-luna"]
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.events.inputs.ampversion }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          registry-url: https://registry.npmjs.org
+      - name: Build package
+        run: |
+          npm install
+          node ./.github/workflows/publish/build-npm-binaries.js ${{ matrix.extension }}
+          node ./.github/workflows/publish/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }}
+      - name: Tag older versions as previous if publishing latest
+        if: github.event.inputs.tag == 'latest' # TODO
+        run: |
+          npm ls
+      - name: Publish v1
+        run: |
+          cd ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0
+          npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0 --access public --tag ${{ github.event.inputs.tag }}
+      - name: Publish v2 if exists #TODO ERROR HANDLE CD
+        run: |
+          cd ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0
+          npm install
+          npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0 --access public --tag ${{ github.event.inputs.tag }}
