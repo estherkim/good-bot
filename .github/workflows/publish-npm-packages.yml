@@ -6,8 +6,8 @@ on:
         description: "AMP version"
         required: true
       tag:
-        description: "NPM package tag. Defaults to 'latest'"
-        required: false
+        description: "NPM package tag"
+        required: true
 jobs:
   publish:
     runs-on: ubuntu-latest
