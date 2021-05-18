@@ -22,8 +22,6 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Build package
         run: |
           npm install
@@ -31,6 +29,7 @@ jobs:
           node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }}
       - name: Publish v1
         run: |
+          npm install
           cat /home/runner/work/_temp/.npmrc
           npm whoami
           npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0 --access public --tag ${{ github.event.inputs.tag }}
