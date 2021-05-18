@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-          scope: "@estherproject"
+          scope: "esth"
       - name: Build package
         run: |
           npm install
