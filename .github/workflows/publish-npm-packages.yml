@@ -9,7 +9,7 @@ on:
         description: "NPM package tag"
         required: true
 jobs:
-  environment: "NPM_TOKEN"
+  environment: NPM_TOKEN
   publish:
     runs-on: ubuntu-latest
     strategy:
