@@ -6,7 +6,7 @@ on:
         description: "AMP version"
         required: true
       tag:
-        description: "NPM package tag"
+        description: "NPM package tag (latest | nightly)"
         required: true
 jobs:
   publish:
@@ -26,7 +26,7 @@ jobs:
       - name: Build package
         run: |
           npm install
-          node ${{ github.workspace }}/build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }}
+          node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }}
           node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }}
       - name: Publish v1
         run: |
