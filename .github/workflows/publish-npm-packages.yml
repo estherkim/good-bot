@@ -14,8 +14,6 @@ jobs:
     strategy:
       matrix:
         extension: ["amp-esther", "amp-luna"]
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         # with:
@@ -24,7 +22,6 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-          scope: "esth"
       - name: Build package
         run: |
           npm install
@@ -35,8 +32,12 @@ jobs:
           cat /home/runner/work/_temp/.npmrc
           npm whoami
           npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0 --access public --tag ${{ github.event.inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish v2 if exists
         run: |
           if $(test -d ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0); then            
             npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0 --access public --tag ${{ github.event.inputs.tag }}
           fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
