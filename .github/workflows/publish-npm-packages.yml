@@ -24,6 +24,12 @@ jobs:
           echo 'hellooooo'
           echo $EXTENSIONS_JSON
           echo "::set-output name=extensions::{\"include\":${EXTENSIONS_JSON}"
+  debug:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: debuggggg
+        run: echo needs.setup.outputs.extensions
   publish:
     environment: NPM_TOKEN
     needs: setup
