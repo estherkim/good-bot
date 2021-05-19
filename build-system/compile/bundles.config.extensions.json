@@ -1,0 +1,6 @@
+[
+  {"name": "amp-esther", "options": {"npm": true}},
+  {"name": "amp-luna", "options": {"npm": true}},
+  {"name": "amp-louie", "options": {"npm": false}},
+  {"name": "amp-arry"} 
+]

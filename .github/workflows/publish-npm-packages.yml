@@ -9,12 +9,26 @@ on:
         description: "NPM package tag (latest | nightly)"
         required: true
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      extensions: ${{ steps.get-extensions.outputs.extensions }}
+    steps:
+      - uses: actions/checkout@v2
+        # with:
+        #   ref: ${{ github.events.inputs.ampversion }} OK THIS WORKs
+      - name: Get extensions to publish
+        id: get-extensions
+        run: |
+          EXTENSIONS_JSON=$(node ./build-system/publish-npm/get-extensions.js)
+          echo "::set-output name=extensions::{\"include\":${EXTENSIONS_JSON}"
   publish:
     environment: NPM_TOKEN
+    needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        extension: ["amp-esther", "amp-luna"]
+        extension: ${{ fromJson(needs.setup.outputs.extensions) }}
     steps:
       - uses: actions/checkout@v2
         # with:
