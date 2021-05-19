@@ -23,7 +23,6 @@ jobs:
           EXTENSIONS_JSON=$(node ./build-system/publish-npm/get-extensions.js)
           echo $EXTENSIONS_JSON
           echo "::set-output name=extensions::{\"include\":${EXTENSIONS_JSON}"
-          echo ${{ output.extensions }}
   publish:
     environment: NPM_TOKEN
     needs: setup
