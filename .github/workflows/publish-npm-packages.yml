@@ -23,7 +23,7 @@ jobs:
           EXTENSIONS_JSON=$(node ./build-system/publish-npm/get-extensions.js)
           echo 'hellooooo'
           echo $EXTENSIONS_JSON
-          echo "::set-output name=extensions::{\"include\": ${EXTENSIONS_JSON}"
+          echo "::set-output name=extensions::{\"include\":${EXTENSIONS_JSON}}"
   debug:
     needs: setup
     runs-on: ubuntu-latest
@@ -35,8 +35,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        extension: ${{ fromJson(needs.setup.outputs.extensions) }}
+      matrix: ${{ fromJson(needs.setup.outputs.extensions) }}
     steps:
       - uses: actions/checkout@v2
         # with:
@@ -48,11 +47,11 @@ jobs:
       - name: Build package
         run: |
           npm install
-          node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }}
-          node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }}
+          node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.name }}
+          node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.name }} ${{ github.event.inputs.ampversion }}
       - name: Publish v1
         run: |
-          cd ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0 
+          cd ${{ github.workspace }}/extensions/${{ matrix.name }}/1.0 
           npm install
           cat /home/runner/work/_temp/.npmrc
           npm whoami
@@ -61,8 +60,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish v2 if exists
         run: |
-          if $(test -d ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0); then            
-            npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0 --access public --tag ${{ github.event.inputs.tag }}
+          if $(test -d ${{ github.workspace }}/extensions/${{ matrix.name }}/2.0); then            
+            npm publish ${{ github.workspace }}/extensions/${{ matrix.name }}/2.0 --access public --tag ${{ github.event.inputs.tag }}
           fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
