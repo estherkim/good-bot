@@ -23,7 +23,7 @@ jobs:
           EXTENSIONS_JSON=$(node ./build-system/publish-npm/get-extensions.js)
           echo 'hellooooo'
           echo $EXTENSIONS_JSON
-          echo "::set-output name=extensions::{\"include\":${EXTENSIONS_JSON}"
+          echo "::set-output name=extensions::{\"include\": ${EXTENSIONS_JSON}"
   debug:
     needs: setup
     runs-on: ubuntu-latest
