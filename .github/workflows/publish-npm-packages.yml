@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: debuggggg
-        run: echo needs.setup.outputs.extensions
+        run: echo ${{ needs.setup.outputs.extensions }}
   publish:
     environment: NPM_TOKEN
     needs: setup
