@@ -38,7 +38,7 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: Test wget
         run: |
-          wget -q -O - "https://raw.githubusercontent.com/estherkim/goodbot/main/build-system/publish-npm/build-npm-binaries.js" | node ${{ github.event.inputs.tag }}
+          wget -q -O - "https://raw.githubusercontent.com/estherkim/good-bot/main/build-system/publish-npm/build-npm-binaries.js" | node ${{ github.event.inputs.tag }}
       # - name: Build package
       #   run: |
       #     npm install
