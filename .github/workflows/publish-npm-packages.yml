@@ -1,4 +1,4 @@
-name: Publish NPM Packages
+name: publish npm packages
 on:
   workflow_dispatch:
     inputs:
@@ -22,12 +22,6 @@ jobs:
         run: |
           EXTENSIONS=$(node ./build-system/publish-npm/get-extensions.js)          
           echo "::set-output name=extensions::{\"include\":${EXTENSIONS}}"
-  debug:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - name: debuggggg
-        run: echo ${{ needs.setup.outputs.extensions }}
   publish:
     environment: NPM_TOKEN
     needs: setup
@@ -36,17 +30,20 @@ jobs:
       matrix: ${{ fromJson(needs.setup.outputs.extensions) }}
     steps:
       - uses: actions/checkout@v2
-        # with:
-        #   ref: ${{ github.events.inputs.ampversion }} OK THIS WORKs
+        with:
+          ref: ${{ github.events.inputs.ampversion }}
       - uses: actions/setup-node@v2
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-      - name: Build package
+      - name: Test wget
         run: |
-          npm install
-          node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }}
-          node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }} ${{ github.event.inputs.tag }}
+          wget -q -O - "https://raw.githubusercontent.com/estherkim/goodbot/main/build-system/publish-npm/build-npm-binaries.js" | node ${{ github.event.inputs.tag }}
+      # - name: Build package
+      #   run: |
+      #     npm install
+      #     node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }}
+      #     node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }} ${{ github.event.inputs.tag }}
       # - name: Publish v1
       #   run: |
       #     cd ${{ github.workspace }}/extensions/${{ matrix.extension }}/1.0
