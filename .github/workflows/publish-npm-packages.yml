@@ -51,6 +51,7 @@ jobs:
         run: |
           NPM_PACKAGE=$(jq -r .name ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
           NPM_VERSION=$(jq -r .version ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
-          npm dist-tag add ${NPM_PACKAGE}@${NPM_VERSION} latest
+          echo ${{ NPM_PACKAGE }}@${{ NPM_VERSION }}
+          npm dist-tag add ${{ NPM_PACKAGE }}@${{ NPM_VERSION }} latest
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
