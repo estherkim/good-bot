@@ -41,13 +41,13 @@ jobs:
           npm install
           node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }} ${{ matrix.majorversion }}
           node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }} ${{ github.event.inputs.tag }}
-      - name: Publish package
-        if: github.events.inputs.tag != 'latest'
+      - name: Publish package for nightly releases
+        if: github.event.inputs.tag != 'latest'
         run: npm publish ./extensions/${{ matrix.extension }}/${{ matrix.version }} --access public --tag ${{ github.event.inputs.tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Tag package as latest
-        if: github.events.inputs.tag == 'latest'
+      - name: Tag package as latest for stable releases
+        if: github.event.inputs.tag == 'latest'
         run: |
           NPM_PACKAGE=$(jq -r .name ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
           NPM_VERSION=$(jq -r .version ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
