@@ -41,21 +41,16 @@ jobs:
           npm install
           node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }} ${{ matrix.majorversion }}
           node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }} ${{ github.event.inputs.tag }}
-      # - name: Publish or upgrade v1
-      #   run: |
-      #     if $(${{ github.event.inputs.tag }} == 'latest'); then
-      #       NPM_PACKAGE=$(jq -r .name ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
-      #       NPM_VERSION=$(jq -r .version ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
-      #       npm dist-tag add ${{  NPM_PACKAGE  }}@${{ NPM_VERSION }} latest
-      #     else
-      #       npm publish ./extensions/${{ matrix.extension }}/1.0 --access public --tag ${{ github.event.inputs.tag }}
-      #     fi
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # - name: Publish v2 if exists
-      #   run: |
-      #     if $(test -d ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0); then
-      #       npm publish ${{ github.workspace }}/extensions/${{ matrix.extension }}/2.0 --access public --tag ${{ github.event.inputs.tag }}
-      #     fi
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish package
+        if: github.events.inputs.tag != 'latest'
+        run: npm publish ./extensions/${{ matrix.extension }}/${{ matrix.version }} --access public --tag ${{ github.event.inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Tag package as latest
+        if: github.events.inputs.tag == 'latest'
+        run: |
+          NPM_PACKAGE=$(jq -r .name ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
+          NPM_VERSION=$(jq -r .version ./extensions/${{ matrix.extension }}/${{ matrix.version }}/package.json)
+          npm dist-tag add ${NPM_PACKAGE}@${NPM_VERSION} latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
