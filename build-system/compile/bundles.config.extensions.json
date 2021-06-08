@@ -1,6 +1,6 @@
 [
-  {"name": "amp-esther", "options": {"npm": true}},
-  {"name": "amp-luna", "options": {"npm": true}},
+  {"name": "amp-esther", "version": "2.0", "options": {"npm": true}},
+  {"name": "amp-luna", "version": "1.0", "options": {"npm": true}},
   {"name": "amp-louie", "options": {"npm": false}},
   {"name": "amp-arry"} 
 ]

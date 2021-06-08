@@ -27,9 +27,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        extension: ${{ fromJson(needs.setup.outputs.extensions) }}
-        majorversion: [1]
+      matrix: ${{ fromJson(needs.setup.outputs.extensions) }}
     steps:
       - uses: actions/checkout@v2
         with:
