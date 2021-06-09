@@ -72,9 +72,9 @@ body:
       placeholder: Provide a specific rationale for why this fix cannot wait until the next Stable release.
   - type: markdown
     id: cherry_pick_progress
-    attributes:
-      label: Cherry-Pick Progress
+    attributes:      
       value: |
+        Cherry-Pick Progress
         To be updated by @ampproject/release-on-duty as each stage is completed.        
         - [ ] Cherry-pick request approved
         - [ ] New version released to Beta / Experimental channels
