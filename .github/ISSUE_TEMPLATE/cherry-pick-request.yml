@@ -51,25 +51,34 @@ body:
         - LTS
     validations:
       required: true
+  - type: dropdown
+    id: formats
+    attributes:
+      label: Formats
+      description: The formats that this bug affects. See https://amp.dev/documentation/components/ for reference.
+      multiple: true
+      options:
+        - Websites
+        - Stories
+        - Ads
+        - Emails
+    validations:
+      required: true
   - type: textarea
     id: justification
     attributes:
       label: Justification
       description: Why you believe this issue meets the [cherry-pick criteria](https://github.com/ampproject/amphtml/blob/main/docs/contributing-code.md#Cherry-picks).
       placeholder: Provide a specific rationale for why this fix cannot wait until the next Stable release.
-  - type: textarea
+  - type: markdown
     id: cherry_pick_progress
     attributes:
       label: Cherry-Pick Progress
-      description: Progress details for this cherry-pick.
       value: |
-        <!-- Leave this section as it is for now. -->
-
-        To be updated by @ampproject/release-on-duty as each stage is completed.
-        - [x] Cherry-pick request created
+        To be updated by @ampproject/release-on-duty as each stage is completed.        
         - [ ] Cherry-pick request approved
         - [ ] New version released to Beta / Experimental channels
         - [ ] New version released to Stable channel
         - [ ] New version released to LTS channel
         - [ ] Release tracker updated
-        - [ ] Cherry-pick completed
+        - [ ] Fix verified
