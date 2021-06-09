@@ -11,10 +11,6 @@ labels:
   ]
 title: "\U0001F338 Cherry-pick request for #ISSUE into #RELEASE"
 body:
-  - type: markdown
-    id: header
-    attributes:
-      value: Header
   - type: input
     id: issue
     attributes:
