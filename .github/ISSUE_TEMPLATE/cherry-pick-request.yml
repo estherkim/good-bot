@@ -74,9 +74,10 @@ body:
     id: cherry_pick_progress
     attributes:      
       value: |
-        ## Cherry-Pick Progress
+        ### Cherry-Pick Progress
         To be updated by @ampproject/release-on-duty as each stage is completed.        
         - [ ] Cherry-pick request approved
+        - [ ] Cherry-pick started
         - [ ] New version released to Beta / Experimental channels
         - [ ] New version released to Stable channel
         - [ ] New version released to LTS channel
