@@ -1,0 +1,75 @@
+---
+name: Cherry-Pick Request
+description: Request a cherry-pick to an AMP release.
+labels:
+  [
+    "Type: Release",
+    "Cherry-pick: Beta",
+    "Cherry-pick: Experimental",
+    "Cherry-pick: LTS",
+    "Cherry-pick: Stable",
+  ]
+title: "\U0001F338 Cherry-pick request for #ISSUE into #RELEASE"
+body:
+  - type: markdown
+    id: header
+    attributes:
+      value: Header
+  - type: input
+    id: issue
+    attributes:
+      label: Issue (P0 Bug)
+      description: The P0 bug that necessitates this cherry-pick. Remember to update the issue title with this info.
+      placeholder: "e.g. #11111"
+    validations:
+      required: true
+  - type: input
+    id: pull_request
+    attributes:
+      label: Pull Request(s)
+      description: The PR(s) that fix the bug. Make sure they are merged and have passing [CI builds](https://app.circleci.com/pipelines/github/ampproject/amphtml?branch=main).
+      placeholder: "e.g. #22222, #33333"
+    validations:
+      required: true
+  - type: input
+    id: release_tracker
+    attributes:
+      label: Release Tracker(s)
+      description: The [tracker issue(s)](https://github.com/ampproject/amphtml/labels/Type%3A%20Release) for the release to which the cherry-pick will be applied. Remember to update the issue title with this info.
+      placeholder: "e.g. #44444, #55555"
+    validations:
+      required: true
+  - type: dropdown
+    id: channels
+    attributes:
+      label: Channels
+      description: The [release channels](https://github.com/ampproject/amphtml/blob/main/docs/release-schedule.md#release-channels) to which the cherry-pick will be applied. Remember to update the issue labels with this info.
+      multiple: true
+      options:
+        - Beta / Experimental
+        - Stable
+        - LTS
+    validations:
+      required: true
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justification
+      description: Why you believe this issue meets the [cherry-pick criteria](https://github.com/ampproject/amphtml/blob/main/docs/contributing-code.md#Cherry-picks).
+      placeholder: Provide a specific rationale for why this fix cannot wait until the next Stable release.
+  - type: textarea
+    id: cherry_pick_progress
+    attributes:
+      label: Cherry-Pick Progress
+      description: Progress details for this cherry-pick.
+      value: |
+        <!-- Leave this section as it is for now. -->
+
+        To be updated by @ampproject/release-on-duty as each stage is completed.
+        - [x] Cherry-pick request created
+        - [ ] Cherry-pick request approved
+        - [ ] New version released to Beta / Experimental channels
+        - [ ] New version released to Stable channel
+        - [ ] New version released to LTS channel
+        - [ ] Release tracker updated
+        - [ ] Cherry-pick completed
