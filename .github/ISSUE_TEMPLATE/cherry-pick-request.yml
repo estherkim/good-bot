@@ -60,12 +60,6 @@ body:
         - Emails
     validations:
       required: true
-  - type: textarea
-    id: justification
-    attributes:
-      label: Justification
-      description: Why you believe this issue meets the [cherry-pick criteria](https://github.com/ampproject/amphtml/blob/main/docs/contributing-code.md#Cherry-picks).
-      placeholder: Provide a specific rationale for why this fix cannot wait until the next Stable release.
   - type: markdown
     id: cherry_pick_progress
     attributes:      
