@@ -2,7 +2,6 @@ name: update status.amp.dev
 on:
   issues:
     types: [opened, edited]
-  issue_commented:
 jobs:
   update:
     name: manage incidents on status.amp.dev
