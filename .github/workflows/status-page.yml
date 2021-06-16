@@ -10,7 +10,6 @@ jobs:
     steps:
       - name: add status page comment
         if: github.event.action == 'opened'
-        runs-on: ubuntu-latest
         run: echo 'opened'
       - name: incident maintanence
         if: github.event.action == 'edited'
