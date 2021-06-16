@@ -1,0 +1,10 @@
+name: update status.amp.dev
+on:
+  issues:
+    types: [edited]
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check payload
+        run: echo ${{ github.event.issue }}
