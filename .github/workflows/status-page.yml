@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: add comment
-        run: ${{ github.event.issue.type }} or ${{ github.event.type }} or ${{ github.event.issue.types }}
+        run: ${{ github.event.action }}
       - name: incident maintanence
         if: contains(github.event.issue.title, '🌸 Cherry-pick request')
         run: |
