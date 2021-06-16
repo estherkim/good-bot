@@ -6,10 +6,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: check payload
+      - name: add comment
+        run: ${{ github.event.issue.event }}
+      - name: incident maintanence
+        if: contains(github.event.issue.title, '🌸 Cherry-pick request')
         run: |
-          ${{ github.event.issue.id }}
-          ${{ github.event.issue.number }}
-          ${{ github.event.issue.title }}
-          ${{ github.event.issue.body }}
-          ${{ github.event.issue.labels }} | jq '.[]'
+          node ./status-page.js ${{ github.event.issue.number }} ${{ github.event.issue.body }}
