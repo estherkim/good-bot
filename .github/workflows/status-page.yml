@@ -4,11 +4,12 @@ on:
     types: [opened, edited]
 jobs:
   update:
-    runs-on: ubuntu-latest
     steps:
       - name: add status page comment
         if: contains(github.event.issue.title, '🌸 Cherry-pick request') && github.event.action == 'opened'
+        runs-on: ubuntu-latest
         run: echo 'opened'
       - name: incident maintanence
         if: contains(github.event.issue.title, '🌸 Cherry-pick request') && github.event.action == 'edited'
+        runs-on: ubuntu-latest
         run: echo "${{ github.event.issue.number }} ${{ github.event.issue.body }}"
