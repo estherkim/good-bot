@@ -13,7 +13,7 @@ jobs:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
       - name: get script
-        run: wget -q "https://raw.githubusercontent.com/estherkim/goodbot/main/.github/workflows/status-page.js" -O ./status-page.js
+        run: wget -q "https://raw.githubusercontent.com/estherkim/good-bot/main/.github/workflows/status-page.js" -O ./status-page.js
       - name: add status page comment
         if: github.event.action == 'opened'
         run: node ./status-page.js open ${{ github.event.issue.number }} ${{ github.event.issue.body }}
