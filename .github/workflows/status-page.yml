@@ -1,14 +1,22 @@
 name: update status.amp.dev
 on:
   issues:
-    types: [edited]
+    types: [opened, edited]
 jobs:
-  update:
+  cherry-pick:
     runs-on: ubuntu-latest
     steps:
-      - name: add comment
-        run: ${{ github.event.action }}
-      - name: incident maintanence
+      - id: check
+      - name: check if it's a cherry-pick request
         if: contains(github.event.issue.title, '🌸 Cherry-pick request')
-        run: |
-          node ./status-page.js ${{ github.event.issue.number }} ${{ github.event.issue.body }}
+        run: echo 'hello'
+  update:
+    runs-on: ubuntu-latest
+    needs: cherry-pick
+    steps:
+      - name: add status page comment
+        if: needs.cherry-pick.steps[check].outcome != 'skipped' && github.event.action == 'opened'
+        run: echo 'herro'
+      - name: incident maintanence
+        if: needs.cherry-pick.steps[check].outcome != 'skipped' && github.event.action == 'opened'
+        run: echo "${{ github.event.issue.number }} ${{ github.event.issue.body }}"
