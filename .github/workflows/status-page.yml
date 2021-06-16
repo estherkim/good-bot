@@ -7,4 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check payload
-        run: echo github.event.issue | jq '.'
+        run: |
+          echo ${{ github.event.issue.id }}
+          echo ${{ github.event.issue.number }}
+          echo ${{ github.event.issue.title }}
+          echo ${{ github.event.issue.body }}
+          echo ${{ github.event.issue.labels }}
