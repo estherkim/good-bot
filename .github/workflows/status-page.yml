@@ -18,5 +18,5 @@ jobs:
         if: needs.cherry-pick.steps.check.outcome != 'skipped' && github.event.action == 'opened'
         run: echo 'herro'
       - name: incident maintanence
-        if: needs.cherry-pick.steps.check.outcome != 'skipped' && github.event.action == 'opened'
+        if: needs.cherry-pick.steps.check.outcome != 'skipped' && github.event.action == 'edited'
         run: echo "${{ github.event.issue.number }} ${{ github.event.issue.body }}"
