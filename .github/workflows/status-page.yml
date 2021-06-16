@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: check
-      - name: check if it's a cherry-pick request
+        name: check if it's a cherry-pick request
         if: contains(github.event.issue.title, '🌸 Cherry-pick request')
         run: echo 'hello'
   update:
