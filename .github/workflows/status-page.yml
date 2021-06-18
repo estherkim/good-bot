@@ -1,10 +1,11 @@
 name: update status.amp.dev
 on:
   issues:
-    types: [opened, edited]
+    types: [opened]
+  issue_comment:
+    types: [edited]
 jobs:
-  update:
-    name: manage incidents on status.amp.dev
+  status-page:
     if: contains(github.event.issue.title, '🌸 Cherry-pick request')
     runs-on: ubuntu-latest
     steps:
@@ -12,11 +13,18 @@ jobs:
         with:
           node-version: 14.x
           registry-url: https://registry.npmjs.org
-      - name: get script
-        run: wget -q "https://raw.githubusercontent.com/estherkim/good-bot/main/.github/workflows/status-page.js" -O ./status-page.js
-      - name: add status page comment
-        if: github.event.action == 'opened'
-        run: node ./status-page.js open ${{ github.event.issue.number }} '{{ github.event.issue.body }}'
-      - name: incident maintanence
-        if: github.event.action == 'edited'
-        run: node ./status-page.js update ${{ github.event.issue.number }} '${{ github.event.issue.body }}'
+      - name: get script and dependencies
+        run: |
+          wget -q "https://raw.githubusercontent.com/estherkim/good-bot/main/.github/workflows/status-page.js" -O ./status-page.js
+          npm install @octokit/core
+      - run: echo ${{ toJson(github) }}
+      # - name: add status page comment for stable and/or lts
+      #   if: github.event.action == 'opened'
+      #   run: node ./status-page.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: incident maintanence
+      #   if: github.event.action == 'edited'
+      #   run: node ./status-page.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
