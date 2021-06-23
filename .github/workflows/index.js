@@ -1,2 +1,2 @@
-const event = process.env.EVENT;
+const event = process.env.ESTHER;
 console.log(event);
