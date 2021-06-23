@@ -1,3 +1,2 @@
-const [eventString] = process.argv.slice(2);
-const event = JSON.stringify(eventString);
+const event = process.env.EVENT;
 console.log(event);

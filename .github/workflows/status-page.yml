@@ -20,9 +20,10 @@ jobs:
           npm install node-fetch
       # - run: echo ${{ toJson(github) }}
       - name: run stuff
-        run: node ./status-page ${{ github.event }}
+        run: node ./status-page
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT: ${{ github.event }}
       # - name: add status page comment for stable and/or lts
       #   if: github.event.action == 'opened'
       #   run: node ./status-page.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}'
