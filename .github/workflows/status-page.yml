@@ -15,9 +15,14 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: get script and dependencies
         run: |
-          wget -q "https://raw.githubusercontent.com/estherkim/good-bot/main/.github/workflows/status-page.js" -O ./status-page.js
+          wget -q "https://raw.githubusercontent.com/estherkim/good-bot/main/.github/workflows/index.js" -O ./status-page.js
           npm install @octokit/core
-      - run: echo ${{ toJson(github) }}
+          npm install node-fetch
+      # - run: echo ${{ toJson(github) }}
+      - name: run stuff
+        run: node ./status-page ${{ github.event }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # - name: add status page comment for stable and/or lts
       #   if: github.event.action == 'opened'
       #   run: node ./status-page.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}'
