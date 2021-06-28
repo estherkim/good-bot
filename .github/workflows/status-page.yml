@@ -8,6 +8,7 @@ jobs:
   status-page:
     if: contains(github.event.issue.title, '🌸 Cherry-pick request')
     runs-on: ubuntu-latest
+    environment: STATUS_PAGE
     steps:
       - uses: actions/setup-node@v2
         with:
@@ -24,7 +25,7 @@ jobs:
         if: github.event_name == 'issues' && github.event.action == 'opened'
         run: node ./comment.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}' ${{ github.actor }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ESDERP_TOKEN }}
       - name: Sync status page with cherry-pick progress
         if: github.event_name == 'issue_comment' && github.event.action == 'edited' && contains(github.event.comment.body, '🌸 Cherry-pick Progress 🌸')
         run: node ./incident.js ${{ github.event.issue.number }} '${{ github.event.issue.body }}' '${{ github.event.changes.body.from }}' '${{ github.event.comment.body}}'
