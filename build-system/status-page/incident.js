@@ -100,18 +100,23 @@
  
  /**
   * Updates incident
+  * @param {Array<string>} channels
   * @param {Array<string>} formats
   * @param {string} status
   * @return {Promise<Object>}
   */
- async function updateIncident(formats, status) {
+ async function updateIncident(channels, formats, status) {
    const components = {};
    formats.forEach((format) => {
      components[componentsIds[format]] =
        status === 'resolved' ? 'operational' : 'degraded_performance';
    });
  
-   const incident = await getIncident();
+   let incident = await getIncident();
+   if (!incident) {
+      incident = await createIncident(channels, formats, status);
+   }
+
    incident.body = updateBodies[status];
    incident.status = status;
    incident.components = components;
@@ -159,7 +164,7 @@
      return;
    }
  
-   const response = await updateIncident(formats, steps[checked].status);
+   const response = await updateIncident(channels, formats, steps[checked].status);
    console.log(response);
    return;
  }
