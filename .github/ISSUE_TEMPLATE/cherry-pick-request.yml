@@ -60,13 +60,3 @@ body:
         - Emails
     validations:
       required: true
-  - type: markdown
-    id: cherry_pick_progress
-    attributes:
-      value: |
-        ### Cherry-Pick Progress
-        To be updated by @ampproject/release-on-duty as each stage is completed.        
-        - [ ] Cherry-pick request approved
-        - [ ] Cherry-pick started
-        - [ ] Fix deployed to release channels        
-        - [ ] Fix verified on release channels
