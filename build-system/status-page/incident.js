@@ -92,10 +92,6 @@
        return incident;
      }
    }
- 
-   throw new Error(
-     `Could not find an unresolved incident for cherry-pick issue #${number}`
-   );
  }
  
  /**
