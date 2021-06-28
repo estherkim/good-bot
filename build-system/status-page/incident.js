@@ -92,6 +92,8 @@
        return incident;
      }
    }
+
+   throw new Error(`Could not find an unresolved incident for cherry-pick issue #${number}`);
  }
  
  /**
@@ -109,11 +111,6 @@
    });
  
    let incident = await getIncident();
-   if (!incident) {
-      await createIncident(channels, formats, status);
-      await updateIncident(channels, formats, status);
-   }
-
    incident.body = updateBodies[status];
    incident.status = status;
    incident.components = components;
