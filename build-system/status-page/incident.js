@@ -111,7 +111,7 @@
    let incident = await getIncident();
    if (!incident) {
       await createIncident(channels, formats, status);
-      updateIncident(channels, formats, status);
+      await updateIncident(channels, formats, status);
    }
 
    incident.body = updateBodies[status];
