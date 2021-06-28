@@ -57,7 +57,7 @@ function getInnerText(body, header) {
 function getChannels(body) {
   const text = getInnerText(body, 'Channels');
   const channels = [];
-  for (const channel of ['Beta / Experimental', 'Stable', 'LTS']) {
+  for (const channel of ['Stable', 'LTS']) {
     if (text.includes(channel)) {
       channels.push(channel);
     }

@@ -42,10 +42,6 @@
   */
  async function addComment() {
    const channels = getChannels(body);
-   const beta = channels.indexOf('Beta / Experimental');
-   if (beta > -1) {
-     channels.splice(beta, 1);
-   }
    if (channels.length == 0) {
      return;
    }
