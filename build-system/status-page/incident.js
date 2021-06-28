@@ -63,7 +63,9 @@
       https://github.com/ampproject/amphtml/issues/${number}`,
      'components': components,
      'metadata': {
-       'cherry_pick_issue_number': number,
+       'github' : {
+        'cherry_pick_issue_number': number,
+       }       
      },
    };
  
