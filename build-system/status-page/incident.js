@@ -34,12 +34,11 @@
    'Emails': process.env.EMAILS_ID || '5zgzj3dk6hpv',
  };
  const updateBodies = {
-   'identified': 'The issue has been identified and a fix is underway.',
-   'monitoring':
-     'The fix has been deployed and is being rolled out to the CDN. /n' +
-     'Please allow up to 30 minutes for the CDN to pick up the fix.',
-   'resolved': 'The fix has been verified',
- };
+  'identified': 'The issue has been identified and a fix is underway.',
+  'monitoring': `The fix has been deployed and is being rolled out to the CDN.
+    Please allow up to 30 minutes for the CDN to pick up the fix.`,
+  'resolved': 'The fix has been verified.',
+};
  
  /**
   * Create incident
@@ -55,10 +54,11 @@
    });
  
    const incident = {
-     'name': `Incident in ${channels.join(', ').toUpperCase()}`,
+     'name': `Incident in ${channels.join(' and ').toUpperCase()}`,
      'status': status,
+     'impact_override': 'minor',
      'body': `We are investigating reports of a bug that is seen in ${channels
-       .join(', ')
+       .join(' and ')
        .toUpperCase()}.
       https://github.com/ampproject/amphtml/issues/${number}`,
      'components': components,
