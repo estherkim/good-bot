@@ -27,7 +27,7 @@
   #### 🌸 Cherry-Pick Progress 🌸 
   Hi @${user}, thanks for filing this cherry-pick request!
   Seeing that this affects ${channels.join(
-    ' and'
+    ' and '
   )}, [status.amp.dev](https://status.amp.dev) will be updated with progress of the fix.
   Please update this tracker as each step is completed.
   - [ ] ${steps[0].text}

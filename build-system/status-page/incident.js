@@ -152,10 +152,14 @@
    }
  
    if (checked === 0) {
-     return await createIncident(channels, formats, steps[checked].status);
+     const response = await createIncident(channels, formats, steps[checked].status);
+     console.log(response);
+     return;
    }
  
-   return await updateIncident(formats, steps[checked].status);
+   const response = await updateIncident(formats, steps[checked].status);
+   console.log(response);
+   return;
  }
  
  syncIncident();
