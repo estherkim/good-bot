@@ -23,17 +23,18 @@
  const [number, body, user] = process.argv.slice(2);
  const {getChannels, steps} = require('./common');
  
- const commentTemplate = (channels) => `
+const reducer = (current, step) => {
+  return current + `- [ ] <!-- status=${step.status} --> ${step.text} \n`; 
+}
+
+const commentTemplate = (channels) => `
   #### 🌸 Cherry-Pick Progress 🌸 
   Hi @${user}, thanks for filing this cherry-pick request!
   Seeing that this affects ${channels.join(
     ' and '
   )}, [status.amp.dev](https://status.amp.dev) will be updated with progress of the fix.
   Please update this tracker as each step is completed.
-  - [ ] ${steps[0].text}
-  - [ ] ${steps[1].text}
-  - [ ] ${steps[2].text}
-  - [ ] ${steps[3].text}
+  ${steps.reduce(reducer, '')}
   `;
  
  /**
