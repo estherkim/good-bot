@@ -16,30 +16,34 @@
 
 /**
  * @fileoverview
- * Add progress comment for stable and LTS cherry-picks
+ * Add progress comment for Stable and LTS cherry-picks
  */
 
  const fetch = require('node-fetch');
- const [number, body, user] = process.argv.slice(2);
  const {getChannels, steps} = require('./common');
+ const {log} = require('../common/logging');
  
-const reducer = (current, step) => {
-  return current + `- [ ] <!-- status=${step.status} --> ${step.text} \n`; 
-}
-
-const commentTemplate = (channels) => `
-  #### 🌸 Cherry-Pick Progress 🌸 
-  Hi @${user}, thanks for filing this cherry-pick request!
-  Seeing that this affects ${channels.join(
-    ' and '
-  )}, [status.amp.dev](https://status.amp.dev) will be updated with progress of the fix.
-  Please update this tracker as each step is completed.
-  ${steps.reduce(reducer, '')}
-  `;
+ const [number, body, user] = process.argv.slice(2);
+ 
+ const commentTemplate = (channels) => {
+   const reducer = (current, step) => {
+     return current + `- [ ] <!-- status=${step.status} --> ${step.text} \n`;
+   };
+ 
+   return `
+   #### 🌸 Cherry-Pick Progress 🌸 
+   Hi @${user}, thanks for filing this cherry-pick request!
+   Seeing that this affects ${channels.join(
+     ' and '
+   )}, [status.amp.dev](https://status.amp.dev) will be updated with progress of the fix.
+   Please update this tracker as each step is completed.
+   ${steps.reduce(reducer, '')}
+   `;
+ };
  
  /**
   * Add progress comment for Stable and LTS cherry-picks
-  * @return {Promise<object>}
+  * @return {Promise<void>}
   */
  async function addComment() {
    const channels = getChannels(body);
@@ -59,7 +63,7 @@ const commentTemplate = (channels) => `
    };
  
    const response = await fetch(apiUrl, options);
-   return await response.json();
+   log(await response.json());
  }
  
  addComment();

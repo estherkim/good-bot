@@ -19,29 +19,32 @@
  * Sync status.amp.dev with cherry-pick progress
  */
 
- const [number, body, before, after] = process.argv.slice(2);
  const fetch = require('node-fetch');
  const {getChannels, getFormats, steps} = require('./common');
+ const {log} = require('../common/logging');
+ 
+ const [number, body, before, after] = process.argv.slice(2);
+ 
  const apiUrl = `https://api.statuspage.io/v1/pages/${process.env.STATUS_PAGE_ID || 'm0y307v5h2x0'}`;
  const headers = {
    'Content-Type': 'application/json',
    'Authorization': `OAuth ${process.env.STATUS_PAGE_TOKEN}`,
-  };
+ };
  const componentsIds = {
-   'Websites': process.env.WEBSITES_ID || 'mp2503rx8nnw',
-   'Stories': process.env.STORIES_ID || 'wzjpx2m71s3c',
-   'Ads': process.env.ADS_ID || 'x7499pf894v2',
-   'Emails': process.env.EMAILS_ID || '5zgzj3dk6hpv',
+  'Websites': process.env.WEBSITES_ID || 'mp2503rx8nnw',
+  'Stories': process.env.STORIES_ID || 'wzjpx2m71s3c',
+  'Ads': process.env.ADS_ID || 'x7499pf894v2',
+  'Emails': process.env.EMAILS_ID || '5zgzj3dk6hpv',
  };
  const updateBodies = {
-  'identified': 'The issue has been identified and a fix is underway.',
-  'monitoring': `The fix has been deployed and is being rolled out to the CDN.
-    Please allow up to 30 minutes for the CDN to pick up the fix.`,
-  'resolved': 'The fix has been verified.',
-};
+   'identified': 'The issue has been identified and a fix is underway.',
+   'monitoring': `The fix has been deployed and is being rolled out to the CDN.
+     Please allow up to 30 minutes for the CDN to pick up the fix.`,
+   'resolved': 'The fix has been verified.',
+ };
  
  /**
-  * Create incident
+  * Create incident on status.amp.dev
   * @param {Array<string>} channels
   * @param {Array<string>} formats
   * @param {string} status
@@ -60,12 +63,12 @@
      'body': `We are investigating reports of a bug that is seen in ${channels
        .join(' and ')
        .toUpperCase()}.
-      https://github.com/ampproject/amphtml/issues/${number}`,
+       https://github.com/ampproject/amphtml/issues/${number}`,
      'components': components,
      'metadata': {
-       'github' : {
-        'cherry_pick_issue_number': number,
-       }       
+       'github': {
+         'cherry_pick_issue_number': number,
+       },
      },
    };
  
@@ -92,25 +95,26 @@
        return incident;
      }
    }
-
-   throw new Error(`Could not find an unresolved incident for cherry-pick issue #${number}`);
+ 
+   throw new Error(
+     `Could not find an unresolved incident for cherry-pick issue #${number}`
+   );
  }
  
  /**
-  * Updates incident
-  * @param {Array<string>} channels
+  * Updates incident on status.amp.dev
   * @param {Array<string>} formats
   * @param {string} status
   * @return {Promise<Object>}
   */
- async function updateIncident(channels, formats, status) {
+ async function updateIncident(formats, status) {
    const components = {};
    formats.forEach((format) => {
      components[componentsIds[format]] =
        status === 'resolved' ? 'operational' : 'degraded_performance';
    });
  
-   let incident = await getIncident();
+   const incident = await getIncident();
    incident.body = updateBodies[status];
    incident.status = status;
    incident.components = components;
@@ -125,8 +129,8 @@
  }
  
  /**
-  * Sync status page incident with cherry-pick progress
-  * @return {Promise<any>}
+  * Syncs incident with cherry-pick progress
+  * @return {Promise<void>}
   */
  async function syncIncident() {
    const formats = getFormats(body);
@@ -137,13 +141,12 @@
  
    // get step that was checked off
    let checked = -1;
-   for (const step of [3, 2, 1, 0]) {
-     const beforeStepIndex = before.indexOf(steps[step].text);
-     const beforeIsChecked = before[beforeStepIndex - 3] === 'x';
-     const afterStepIndex = after.indexOf(steps[step].text);
-     const afterIsChecked = after[afterStepIndex - 3] === 'x';
-     if (!beforeIsChecked && afterIsChecked) {
-       checked = step;
+   for (const index of [3, 2, 1, 0]) {
+     const regex = new RegExp(
+       `[x] <!-- status=${steps[index].status} -->`.replace(/[[\]\\]/g, '\\$&')
+     );
+     if (regex.test(after) && !regex.test(before)) {
+       checked = index;
        break;
      }
    }
@@ -153,14 +156,17 @@
    }
  
    if (checked === 0) {
-     const response = await createIncident(channels, formats, steps[checked].status);
-     console.log(response);
+     const response = await createIncident(
+       channels,
+       formats,
+       steps[checked].status
+     );
+     log(response);
      return;
    }
  
-   const response = await updateIncident(channels, formats, steps[checked].status);
-   console.log(response);
-   return;
+   const response = await updateIncident(formats, steps[checked].status);
+   log(response);
  }
  
  syncIncident();
