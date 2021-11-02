@@ -21,6 +21,12 @@ jobs:
       - uses: actions/checkout@v2
         # with:
         #   ref: ${{ github.events.inputs.ampversion }} OK THIS WORKs
+      - name: Get latest scripts
+        run: |
+          DIR="https://raw.githubusercontent.com/ampproject/amphtml/main/build-system/npm-publish"
+          wget -q "${DIR}/utils.js" -O ./build-system/npm-publish/utils.js
+          wget -q "${DIR}/build-npm-binaries.js" -O ./build-system/npm-publish/build-npm-binaries.js
+          wget -q "${DIR}/write-package-files.js" -O ./build-system/npm-publish/write-package-files.js
       - name: Get extensions to publish
         id: get-extensions
         run: |
