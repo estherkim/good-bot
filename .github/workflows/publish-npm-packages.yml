@@ -38,9 +38,9 @@ jobs:
     steps:
       - name: Get latest scripts
         run: |
-          wget -q "${{ env.REPO }}/${{ env.DIR }}/utils.js" -O ${{ env.DIR }}/utils.js
-          wget -q "${{ env.REPO }}/${{ env.DIR }}/build-npm-binaries.js" -O ${{ env.DIR }}/build-npm-binaries.js
-          wget -q "${{ env.REPO }}/${{ env.DIR }}/write-package-files.js" -O ${{ env.DIR }}/write-package-files.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/utils.js" -O ./${{ env.DIR }}/utils.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/build-npm-binaries.js" -O ./${{ env.DIR }}/build-npm-binaries.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/write-package-files.js" -O ./${{ env.DIR }}/write-package-files.js
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.events.inputs.ampversion }}
