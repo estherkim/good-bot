@@ -31,8 +31,8 @@ jobs:
     environment: NPM_TOKEN
     needs: setup
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.setup.outputs.extensions) }}
+#     strategy:
+#       matrix: ${{ fromJson(needs.setup.outputs.extensions) }}
     steps:
       - name: Get latest scripts
         run: |
