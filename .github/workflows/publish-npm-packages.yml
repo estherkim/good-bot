@@ -8,6 +8,8 @@ on:
       tag:
         description: "NPM package tag (latest | nightly)"
         required: true
+env: 
+  DIR: "https://raw.githubusercontent.com/ampproject/amphtml/main/build-system/npm-publish"
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -18,10 +20,9 @@ jobs:
         run: |
           echo "AMP version: ${{github.event.inputs.ampversion}}"
           echo "npm tag: ${{github.event.inputs.tag}}"
-          echo "dir=https://raw.githubusercontent.com/ampproject/amphtml/main/build-system/npm-publish" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - name: Get latest scripts
-        run: wget -q "${{env.dir}}/get-extensions.js" -O ./build-system/npm-publish/get-extensions.js
+        run: wget -q "${{env.DIR}}/get-extensions.js" -O ./build-system/npm-publish/get-extensions.js
 #       - name: Get extensions to publish
 #         id: get-extensions
 #         run: |
@@ -36,9 +37,9 @@ jobs:
     steps:
       - name: Get latest scripts
         run: |
-          wget -q "${{env.dir}}/utils.js" -O ./build-system/npm-publish/utils.js
-          wget -q "${{env.dir}}/build-npm-binaries.js" -O ./build-system/npm-publish/build-npm-binaries.js
-          wget -q "${{env.dir}}/write-package-files.js" -O ./build-system/npm-publish/write-package-files.js
+          wget -q "${{env.DIR}}/utils.js" -O ./build-system/npm-publish/utils.js
+          wget -q "${{env.DIR}}/build-npm-binaries.js" -O ./build-system/npm-publish/build-npm-binaries.js
+          wget -q "${{env.DIR}}/write-package-files.js" -O ./build-system/npm-publish/write-package-files.js
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.events.inputs.ampversion }}
