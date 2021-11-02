@@ -9,8 +9,8 @@ on:
         description: "NPM package tag (latest | nightly)"
         required: true
 env: 
-  DIR: "https://raw.githubusercontent.com/ampproject/amphtml/main"
-  REPO: "build-system/npm-publish"
+  REPO: "https://raw.githubusercontent.com/ampproject/amphtml/main"
+  DIR: "build-system/npm-publish"
 jobs:
   setup:
     runs-on: ubuntu-latest
