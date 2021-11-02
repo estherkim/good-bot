@@ -19,8 +19,6 @@ jobs:
           echo "AMP version: ${{github.event.inputs.ampversion}}"
           echo "npm tag: ${{github.event.inputs.tag}}"
       - uses: actions/checkout@v2
-        # with:
-        #   ref: ${{ github.events.inputs.ampversion }} OK THIS WORKs
       - name: Get latest scripts
         run: |
           DIR="https://raw.githubusercontent.com/ampproject/amphtml/main/build-system/npm-publish"
