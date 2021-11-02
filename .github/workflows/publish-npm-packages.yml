@@ -22,11 +22,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get latest scripts
         run: wget -q "${{env.dir}}/get-extensions.js" -O ./build-system/npm-publish/get-extensions.js
-      - name: Get extensions to publish
-        id: get-extensions
-        run: |
-          EXTENSIONS=$(node ./build-system/npm-publish/get-extensions.js)          
-          echo "::set-output name=extensions::{\"include\":${EXTENSIONS}}"
+#       - name: Get extensions to publish
+#         id: get-extensions
+#         run: |
+#           EXTENSIONS=$(node ./build-system/npm-publish/get-extensions.js)          
+#           echo "::set-output name=extensions::{\"include\":${EXTENSIONS}}"
   publish:
     environment: NPM_TOKEN
     needs: setup
