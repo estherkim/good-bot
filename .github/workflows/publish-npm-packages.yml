@@ -9,7 +9,8 @@ on:
         description: "NPM package tag (latest | nightly)"
         required: true
 env: 
-  DIR: "https://raw.githubusercontent.com/ampproject/amphtml/main/build-system/npm-publish"
+  DIR: "https://raw.githubusercontent.com/ampproject/amphtml/main"
+  REPO: "build-system/npm-publish"
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -22,7 +23,7 @@ jobs:
           echo "npm tag: ${{github.event.inputs.tag}}"
       - uses: actions/checkout@v2
       - name: Get latest scripts
-        run: wget -q "${{env.DIR}}/get-extensions.js" -O ./build-system/npm-publish/get-extensions.js
+        run: wget -q "${{ env.REPO }}/${{ env.DIR }}/get-extensions.js" -O ${{ env.DIR }}/get-extensions.js
 #       - name: Get extensions to publish
 #         id: get-extensions
 #         run: |
@@ -37,9 +38,9 @@ jobs:
     steps:
       - name: Get latest scripts
         run: |
-          wget -q "${{env.DIR}}/utils.js" -O ./build-system/npm-publish/utils.js
-          wget -q "${{env.DIR}}/build-npm-binaries.js" -O ./build-system/npm-publish/build-npm-binaries.js
-          wget -q "${{env.DIR}}/write-package-files.js" -O ./build-system/npm-publish/write-package-files.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/utils.js" -O ${{ env.DIR }}/utils.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/build-npm-binaries.js" -O ${{ env.DIR }}/build-npm-binaries.js
+          wget -q "${{ env.REPO }}/${{ env.DIR }}/write-package-files.js" -O ${{ env.DIR }}/write-package-files.js
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.events.inputs.ampversion }}
@@ -50,7 +51,7 @@ jobs:
       - name: Build package
         run: |
           npm install
-          node ./build-system/publish-npm/build-npm-binaries.js ${{ matrix.extension }} ${{ matrix.majorversion }}
+          node ${{ env.DIR }}/build-npm-binaries.js ${{ matrix.extension }} ${{ matrix.majorversion }}
           node ${{ github.workspace }}/build-system/publish-npm/write-package-json.js ${{ matrix.extension }} ${{ github.event.inputs.ampversion }} ${{ github.event.inputs.tag }}
       - name: Publish package for nightly releases
         if: github.event.inputs.tag != 'latest'
