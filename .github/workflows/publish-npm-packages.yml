@@ -16,8 +16,8 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          echo "AMP version: ${{inputs.ampversion}}"
-          echo "npm tag: ${{inputs.tag}}"
+          echo "AMP version: ${{github.events.inputs.ampversion}}"
+          echo "npm tag: ${{github.events.inputs.tag}}"
       - uses: actions/checkout@v2
         # with:
         #   ref: ${{ github.events.inputs.ampversion }} OK THIS WORKs
