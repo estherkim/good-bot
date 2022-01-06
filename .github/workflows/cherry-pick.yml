@@ -1,0 +1,48 @@
+name: cherry-pick
+
+on:
+  workflow_dispatch:
+    inputs:
+      amp-version:
+        description: AMP version (13 digits)
+        required: true
+        type: string
+      sha-1:
+        description: sha, i.e. "abcdef1"
+        required: true
+        type: string
+      sha-2:
+        description: sha, i.e. "abcdef2"
+        required: false
+        type: string
+#      TODO(estherkim): tie to promote workflow
+#       channel:
+#         description: channels to promote to
+#         required: true
+#         type: choice
+#         options:
+#           - nightly
+#           - traffic
+#           - beta
+#           - stable
+#           - lts
+
+jobs:
+  cherry-pick:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout estherkim/amphtml
+        uses: actions/checkout@v2
+        with:
+          repository: estherkim/amphtml
+          fetch-depth: 0
+          token: ${{ secrets.ACTION }}
+    
+      - name: Cherry-pick ${{ github.event.inputs.amp-version }} with ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
+        run: |
+          git config --get user.name
+          git config --get user.email
+          git checkout -b cherry-pick-${{ github.event.inputs.amp-version }} ${{ github.event.inputs.amp-version }}
+          git cherry-pick -x ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
+          git push --set-upstream https://github.com/estherkim/amphtml.git cherry-pick-${{ github.event.inputs.amp-version }}
