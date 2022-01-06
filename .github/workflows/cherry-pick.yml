@@ -41,8 +41,6 @@ jobs:
     
       - name: Cherry-pick ${{ github.event.inputs.amp-version }} with ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
         run: |
-          git config --get user.name
-          git config --get user.email
           git checkout -b cherry-pick-${{ github.event.inputs.amp-version }} ${{ github.event.inputs.amp-version }}
           git cherry-pick -x ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
           git push --set-upstream https://github.com/estherkim/amphtml.git cherry-pick-${{ github.event.inputs.amp-version }}
