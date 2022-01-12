@@ -45,6 +45,9 @@ jobs:
         with:
           token: ${{ secrets.THIRD }}
           
+      - name: echo
+        run: echo $(git config --local user.name)
+          
       - name: See config
         run: |
           git config --local user.name
