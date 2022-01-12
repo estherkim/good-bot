@@ -34,28 +34,23 @@ jobs:
     environment: cherry-pick
 
     steps:
-#       - name: Checkout estherkim/amphtml
-#         uses: actions/checkout@v2
-#         with:
-#           repository: estherkim/amphtml
-#           fetch-depth: 0
-#           token: ${{ secrets.THIRD }}
-      - name: Checkout self
+      - name: Checkout estherkim/amphtml
         uses: actions/checkout@v2
         with:
+          repository: estherkim/amphtml
+          fetch-depth: 0
           token: ${{ secrets.THIRD }}
+#       - name: Checkout self
+#         uses: actions/checkout@v2
+#         with:
+#           token: ${{ secrets.THIRD }}
           
-      - name: echo
+      - name: Set git config
         run: |
-          echo $(git --no-pager log --format=format:'%an' -n 1)
-          echo "$(git --no-pager log --format=format:'%ae' -n 1)"
-          
-      - name: See config
-        run: |
-          git config --local user.name
-          git config --local user.email
-          git config --global user.name $(git config --local user.name)
-          git config --global user.email $(git config --local user.email)
+          NAME=$(git --no-pager log --format=format:'%an' -n 1)
+          EMAIL="$(git --no-pager log --format=format:'%ae' -n 1)"
+          git config --global user.name $NAME
+          git config --global user.email $EMAIL
     
       - name: Cherry-pick ${{ github.event.inputs.amp-version }} with ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
         run: |
