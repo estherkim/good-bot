@@ -39,11 +39,11 @@ jobs:
 #         with:
 #           repository: estherkim/amphtml
 #           fetch-depth: 0
-#           token: ${{ secrets.third }}
+#           token: ${{ secrets.THIRD }}
       - name: Checkout self
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.third }}
+          token: ${{ secrets.THIRD }}
           
       - name: See config
         run: |
