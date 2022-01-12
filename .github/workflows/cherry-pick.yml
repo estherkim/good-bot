@@ -46,7 +46,9 @@ jobs:
           token: ${{ secrets.THIRD }}
           
       - name: echo
-        run: echo $(git config --local user.name)
+        run: |
+          echo $(git --no-pager log --format=format:'%an' -n 1)
+          echo "$(git --no-pager log --format=format:'%ae' -n 1)"
           
       - name: See config
         run: |
