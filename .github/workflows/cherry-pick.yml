@@ -34,11 +34,15 @@ jobs:
     environment: cherry-pick
 
     steps:
-      - name: Checkout estherkim/amphtml
+#       - name: Checkout estherkim/amphtml
+#         uses: actions/checkout@v2
+#         with:
+#           repository: estherkim/amphtml
+#           fetch-depth: 0
+#           token: ${{ secrets.third }}
+      - name: Checkout self
         uses: actions/checkout@v2
         with:
-          repository: estherkim/amphtml
-          fetch-depth: 0
           token: ${{ secrets.third }}
           
       - name: See config
@@ -52,4 +56,4 @@ jobs:
         run: |
           git checkout -b cherry-pick-${{ github.event.inputs.amp-version }} ${{ github.event.inputs.amp-version }}
           git cherry-pick -x ${{ github.event.inputs.sha-1 }} ${{ github.event.inputs.sha-2 }}
-          git push --set-upstream https://github.com/estherkim/amphtml.git cherry-pick-${{ github.event.inputs.amp-version }}
+          git push --set-upstream https://github.com/estherkim/good-bot.git cherry-pick-${{ github.event.inputs.amp-version }}
