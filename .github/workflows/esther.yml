@@ -1,0 +1,22 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Test needs array
+
+on:
+  workflow_dispatch:
+
+jobs:
+  A:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Aaaaaaaa
+  B:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Bbbb
+  C:
+    runs-on: ubuntu-latest
+    needs: [A, B]
+    if: failure()
+    steps:
+      - run: echo Cccc
