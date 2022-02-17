@@ -15,9 +15,6 @@ jobs:
     steps:
       - run: echo Bbbb
       - run: exit 1
-  C:
-    runs-on: ubuntu-latest
-    needs: [A, B]
-    if: failure()
-    steps:
-      - run: echo Cccc
+      - name: catch
+        if: ${{ failure() }}
+        uses: actions/checkout@v2
