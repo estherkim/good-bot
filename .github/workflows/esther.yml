@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(fromJson('["A", "B"]'), 'B')
     steps:
-      - run: echo Cccccc
-      
+      - run: echo Ccccc
+
   D:
     runs-on: ubuntu-latest
-    if: 'A' == 'B' || 'B' == 'B'
+    if: github.repository == 'good-bot' || github.repository == 'bad-bot'
     steps:
-      - run: echo Dddd      
+      - run: echo Dddddddd
