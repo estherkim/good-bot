@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test needs array
+name: Esther workflow
 
 on:
   workflow_dispatch:
@@ -21,6 +21,8 @@ jobs:
         
   C:
     runs-on: ubuntu-latest
-    if: contains(['A', 'B'], 'B')
+    if: contains(fromJson('["A", "B"]'), 'B')
     steps:
       - run: echo Cccccc
+      
+
