@@ -5,12 +5,13 @@ name: Esther workflow
 on:
   workflow_dispatch:
     inputs:
-      description: 'test choice'
-      required: false
-      type: choice
-      options:
-        - A
-        - B
+      first:
+        description: 'test choice'
+        required: false
+        type: choice
+        options:
+          - A
+          - B
 
 jobs:
   A:
