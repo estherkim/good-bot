@@ -27,6 +27,6 @@ jobs:
 
   D:
     runs-on: ubuntu-latest
-    if: github.repository == 'good-bot' || github.repository == 'bad-bot'
+    if: github.repository == 'estherkim/good-bot' || github.repository == 'estherkim/bad-bot'
     steps:
       - run: echo Dddddddd
