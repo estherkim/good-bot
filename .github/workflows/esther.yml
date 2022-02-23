@@ -18,3 +18,9 @@ jobs:
       - name: catch
         if: ${{ failure() }}
         uses: actions/checkout@v2
+        
+  C:
+    runs-on: ubuntu-latest
+    if: contains(['A', 'B'], 'B')
+    steps:
+      - run: echo Cccccc
