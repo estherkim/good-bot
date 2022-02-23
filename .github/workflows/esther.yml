@@ -25,4 +25,8 @@ jobs:
     steps:
       - run: echo Cccccc
       
-
+  D:
+    runs-on: ubuntu-latest
+    if: 'A' == 'B' || 'B' == 'B'
+    steps:
+      - run: echo Dddd      
