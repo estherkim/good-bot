@@ -1,7 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Esther workflow
-
 on:
   workflow_dispatch:
     inputs:
@@ -29,6 +28,7 @@ jobs:
         
   C:
     runs-on: ubuntu-latest
+    environment: STATUS_PAGE
     steps:
       - name: POST request
         uses: fjogeleit/http-request-action@master
