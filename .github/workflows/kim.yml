@@ -1,0 +1,21 @@
+
+# This is a basic workflow to help you get started with Actions
+
+name: Kim workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      letter:
+        description: 'test choice'
+        required: false
+        type: choice
+        options:
+          - A
+          - B
+
+jobs:
+  A:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.inputs.letter }}
