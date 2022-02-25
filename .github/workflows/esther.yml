@@ -29,9 +29,12 @@ jobs:
         
   C:
     runs-on: ubuntu-latest
-    if: contains(fromJson('["A", "B"]'), 'B')
     steps:
-      - run: echo Ccccc
+      - name: POST request
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: 'https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches'
+          data: '{"ref": "main", "inputs": {"letter": ${{ github.event.inputs.first }} }}'         
 
   D:
     runs-on: ubuntu-latest
