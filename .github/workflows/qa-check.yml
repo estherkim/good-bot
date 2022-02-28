@@ -1,5 +1,6 @@
 name: QA Check
 
+
 on:
   pull_request_target:
     branches:
@@ -13,6 +14,7 @@ on:
 jobs:
   approver-is-qa:
     if: github.event_name == 'pull_request_review'
+    environment: STATUS_PAGE
     runs-on: ubuntu-latest
     steps:
       - name: Check if approver is QA
