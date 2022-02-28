@@ -9,6 +9,11 @@ on:
     types: [submitted]
 
 jobs:
+  test-context:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.ref_name }}
+    
   require-approval:
     if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
     runs-on: ubuntu-latest
