@@ -10,7 +10,7 @@ on:
 
 jobs:
   require-approval:
-    if: startsWith(github.head_ref, 'test-promote-1') || startsWith(github.head_ref, 'test-promote-2')
+    if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
     runs-on: ubuntu-latest
     steps:
       - name: Fail if not approved
