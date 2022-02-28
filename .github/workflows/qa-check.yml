@@ -1,0 +1,12 @@
+name: QA Check
+
+on:
+  pull_request:
+    paths:
+      - 'configs/versions.json'
+
+jobs:
+  require-qa:
+    if: startsWith(env.GITHUB_HEAD_REF, 'test-promote-1') || startsWith(env.GITHUB_HEAD_REF, 'test-promote-2')
+    steps:
+      - run: echo Aaaaa
