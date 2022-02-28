@@ -1,13 +1,37 @@
 name: QA Check
 
 on:
-  pull_request:
+  pull_request_target:
+    branches:
+      - 'test-promote-1-*'
+      - 'test-promote-2-*'
     paths:
       - 'configs/versions.json'
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  require-qa:
-    if: startsWith(github.head_ref, 'test-promote-1') || startsWith(github.head_ref, 'test-promote-2')
+  approver-is-qa:
+    if: github.event_name == 'pull_request_review'
     runs-on: ubuntu-latest
     steps:
-      - run: echo Aaaaa
+      - name: Check if approver is QA
+        id: checkUserMember
+        uses: tspascoal/get-user-teams-membership@v1
+        with:
+          username: ${{ github.event.review.user.login }}
+          organization: 'ampproject'
+          team: 'amp-qa'
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Fail if approver is not QA
+        if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        run: exit 1
+        
+  require-approval:
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if not approved
+        if: ${{ github.event.review.state }} !== 'approved'
+        run: exit 1
+  
