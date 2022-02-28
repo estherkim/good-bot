@@ -8,5 +8,6 @@ on:
 jobs:
   require-qa:
     if: startsWith(env.GITHUB_HEAD_REF, 'test-promote-1') || startsWith(env.GITHUB_HEAD_REF, 'test-promote-2')
+    runs-on: ubuntu-latest
     steps:
       - run: echo Aaaaa
