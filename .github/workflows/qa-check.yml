@@ -26,5 +26,5 @@ jobs:
           team: 'amp-qa'
           GITHUB_TOKEN: ${{ secrets.ESDERP_TOKEN }}
       - name: Fail if approver is not QA
-        if: ${{ sucess() }} && ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        if: ${{ success() }} && ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: exit 1
