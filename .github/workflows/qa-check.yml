@@ -2,10 +2,7 @@ name: QA Check
 
 
 on:
-  pull_request_target:
-    branches:
-      - 'test-promote-1-*'
-      - 'test-promote-2-*'
+  pull_request:
     paths:
       - 'configs/versions.json'
   pull_request_review:
@@ -30,7 +27,7 @@ jobs:
         run: exit 1
         
   require-approval:
-    if: github.event_name == 'pull_request_target'
+    if: startsWith(github.head_ref, 'test-promote-1') || startsWith(github.head_ref, 'test-promote-2')
     runs-on: ubuntu-latest
     steps:
       - name: Fail if not approved
