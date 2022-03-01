@@ -14,12 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: STATUS_PAGE
     steps:
-      - name: Check if stable or 1% and is approved
+      - name: Check if stable or 1%
         if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'test-promote-2')
-        run: |
-          if [[ ${{ github.event.pull_request.state }} !== 'approved' ]]; then
-              exit 1
-          fi
+        run: exit 1 # block until QA approval is submitted
       - name: Check if approver is QA
         if: github.event_name == 'pull_request_review'
         id: checkUserMember
