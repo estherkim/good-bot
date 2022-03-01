@@ -1,0 +1,15 @@
+name: Label for QA
+
+on:
+  pull_request:
+    paths:
+      - 'configs/versions.json'
+      
+jobs:
+  label-qa:
+    if: startsWith(github.head_ref, 'promote-job-1') || startsWith(github.head_ref, 'promote-job-2')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.ACCESS_TOKEN }}"
