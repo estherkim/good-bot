@@ -1,0 +1,28 @@
+
+name: Second check
+
+on:
+  workflow_dispatch:
+    inputs:
+      github-ref:
+        required: true
+        type: string
+
+jobs:    
+  second:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Check QA
+        runs: npx ./scripts/check-qa.ts --github-ref=${{ github.event.inputs.github-ref }}
+        uses: fjogeleit/http-request-action@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.access-token }}
