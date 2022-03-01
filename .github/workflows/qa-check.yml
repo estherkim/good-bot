@@ -8,28 +8,27 @@ on:
   pull_request_review:
     types: [submitted]
 
-jobs:
-  test-context:
+
+jobs:           
+  combine-check:
     runs-on: ubuntu-latest
+    environment: STATUS_PAGE
     steps:
-      - run: echo ${{ github.ref_name }}
-    
-  require-approval:
-    if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail if not approved
-        if: ${{ github.event.review.state }} !== 'approved'
-        run: exit 1
-      - name: Get approver
-        if: ${{ success() }} && github.event_name == 'pull_request_review'
+      - name: Check if stable or 1% and is approved
+        if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'test-promote-2')
+        run: |
+          if [[ ${{ github.event.review.state }} !== 'approved' ]]; then
+              exit 1
+          fi
+      - name: Check if approver is QA
+        if: github.event_name == 'pull_request_review'
         id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
         with:
           username: ${{ github.event.review.user.login }}
           organization: 'ampproject'
           team: 'amp-qa'
-          GITHUB_TOKEN: ${{ secrets.ESDERP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       - name: Fail if approver is not QA
-        if: ${{ success() }} && ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        if: github.event_name == 'pull_request_review' && ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: exit 1
