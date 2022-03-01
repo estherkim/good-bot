@@ -17,7 +17,7 @@ jobs:
       - name: Check if stable or 1% and is approved
         if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'test-promote-2')
         run: |
-          if [[ ${{ github.event.review.state }} !== 'approved' ]]; then
+          if [[ ${{ github.event.pull_request.state }} !== 'approved' ]]; then
               exit 1
           fi
       - name: Check if approver is QA
