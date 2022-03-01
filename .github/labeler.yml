@@ -1,2 +1,2 @@
 qa:
-  = configs/versions.json
+  - configs/versions.json
