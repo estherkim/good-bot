@@ -3,20 +3,12 @@
 name: Esther workflow
 on:
   workflow_dispatch:
-    inputs:
-      first:
-        description: 'test choice'
-        required: false
-        type: choice
-        options:
-          - A
-          - B
 
 jobs:
   A:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Aaaaaaaa
+      - run: echo $(date + '%Y-%m-%d %H:%M:%S %Z')
   B:
     runs-on: ubuntu-latest
     steps:
