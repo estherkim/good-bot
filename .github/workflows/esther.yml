@@ -8,8 +8,7 @@ jobs:
   A:
     runs-on: ubuntu-latest
     steps:
-      - run: date --help
-      - run: echo "$(date + '%Y-%m-%d %H:%M:%S %Z')"
+      - run: echo "$(date +'%Y-%m-%d %H:%M:%S %Z')"
       
 #   B:
 #     runs-on: ubuntu-latest
