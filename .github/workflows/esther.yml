@@ -13,14 +13,17 @@ jobs:
   D:
     runs-on: ubuntu-latest
     outputs:
-      hello: ${{ steps.world.outputs.world }}
+      hello: ${{ steps.day.outputs.day }}
     steps:
       - name: set output
-        id: world
-        run: echo "::set-output name=world::world"
+        id: day
+        run: |
+          DAY=$(date +%d)
+          echo "::set-output name=day::$DAY"
   E:
     needs: D
     runs-on: ubuntu-latest
+    if: 4 <= needs.d.outputs.hello && needs.d.outputs.hello  <= 5
     steps:
       - run: echo ${{ needs.D.outputs.hello }}
       - name: test
@@ -37,21 +40,6 @@ jobs:
         env:
           time: $(date +'%Y-%m-%d %H:%M:%S %Z')
         run: echo ${{ env.time }}
-            
-#       - name: Create nightly event on the release calendar
-#         uses: fjogeleit/http-request-action@v1
-#         with:
-#           url: '${{ secrets.CALENDAR_URI}}'
-#           data: >-
-#             {"release": 
-#             {"name": "${{ needs.D.outputs.hello }}"}, 
-#             "promotion": 
-#             {"releaseName": ${{ needs.D.outputs.hello }}, 
-#             "time": "${{ env.datestring }}", 
-#             "channel": "nightly"}}
-#           bearerToken: ${{ secrets.CALENDAR_TOKEN }}
-#         env:
-#           datestring: $(date +'%Y-%m-%d %H:%M:%S %Z')
   
   F:
     runs-on: ubuntu-latest
