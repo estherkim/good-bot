@@ -8,15 +8,17 @@ jobs:
   A:
     runs-on: ubuntu-latest
     steps:
-      - run: echo $(date + '%Y-%m-%d %H:%M:%S %Z')
-  B:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo Bbbb
-      - run: exit 1
-      - name: catch
-        if: ${{ failure() }}
-        run: echo bbbcatch
+      - run: date --help
+      - run: echo "$(date + '%Y-%m-%d %H:%M:%S %Z')"
+      
+#   B:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - run: echo Bbbb
+#       - run: exit 1
+#       - name: catch
+#         if: ${{ failure() }}
+#         run: echo bbbcatch
         
   D:
     runs-on: ubuntu-latest
