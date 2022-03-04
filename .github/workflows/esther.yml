@@ -32,7 +32,11 @@ jobs:
             {"releaseName": ${{ needs.D.outputs.hello }}, 
             "time": "time", 
             "channel": "nightly"}}
-        run: echo ${{ env.data }}    
+        run: echo ${{ env.data }}   
+      - name: test 2
+        env:
+          time: $(date +'%Y-%m-%d %H:%M:%S %Z')
+        run: echo ${{ env.time }}
             
 #       - name: Create nightly event on the release calendar
 #         uses: fjogeleit/http-request-action@v1
