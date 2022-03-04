@@ -42,9 +42,9 @@ jobs:
       
   F:
     runs-on: ubuntu-latest
-    needs: E
+    needs: [D, E]
     steps:
-      - run: echo hello ${{ needs.D.outputs.hello }}
-      - run: echo hello ${{ needs.E.outputs.hello }}
+      - run: echo D hello ${{ needs.D.outputs.hello }}
+      - run: echo E hello ${{ needs.E.outputs.hello }}
 
 
