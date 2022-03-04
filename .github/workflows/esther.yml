@@ -26,19 +26,25 @@ jobs:
         if: ${{ failure() }}
         run: echo bbbcatch
         
-  C:
-    runs-on: ubuntu-latest
-    environment: STATUS_PAGE
-    steps:
-      - name: POST request
-        uses: fjogeleit/http-request-action@master
-        with:
-          url: 'https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches'
-          data: '{"ref": "main", "inputs": {"letter": "${{ github.event.inputs.first }}" }}'
-          bearerToken: ${{ secrets.ESDERP_TOKEN }}
-
   D:
     runs-on: ubuntu-latest
-    if: github.repository == 'estherkim/good-bot' || github.repository == 'estherkim/bad-bot'
+    outputs:
+      hello: ${{ steps.world.outputs.world }}
     steps:
-      - run: echo Dddddddd
+      - name: set output
+        id: world
+        run: echo "::set-output name=world::'world'"
+  E:
+    needs: D
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Eeee
+      
+  F:
+    runs-on: ubuntu-latest
+    needs: E
+    steps:
+      - run: echo hello ${{ needs.D.outputs.hello }}
+      - run: echo hello ${{ needs.E.outputs.hello }}
+
+
