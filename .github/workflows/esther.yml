@@ -10,14 +10,24 @@ jobs:
     steps:
       - run: echo "$(date +'%Y-%m-%d %H:%M:%S %Z')"
       
-#   B:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - run: echo Bbbb
-#       - run: exit 1
-#       - name: catch
-#         if: ${{ failure() }}
-#         run: echo bbbcatch
+  B:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create nightly event on the release calendar
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: '${{ secrets.CALENDAR_URI}}'
+          data: >-
+            {"release": 
+            {"name": "${{ needs.promote-nightly.outputs.amp-version }}"}, 
+            "promotion": 
+            {"releaseName": ${{ needs.promote-nightly.outputs.amp-version }}, 
+            "time": "$(env.datestring)", 
+            "channel": "nightly"}}
+          bearerToken: ${{ secrets.CALENDAR_TOKEN }}
+        env:
+          amp-version: ${{ needs.promote-nightly.outputs.amp-version }}
+          datestring: $(date +'%Y-%m-%d %H:%M:%S %Z')
         
   D:
     runs-on: ubuntu-latest
@@ -31,8 +41,21 @@ jobs:
     needs: D
     runs-on: ubuntu-latest
     steps:
-      - run: echo Eeee
-      
+      - name: Create nightly event on the release calendar
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: '${{ secrets.CALENDAR_URI}}'
+          data: >-
+            {"release": 
+            {"name": "${{ needs.D.outputs.hello }}"}, 
+            "promotion": 
+            {"releaseName": ${{ needs.D.outputs.hello }}, 
+            "time": "$(env.datestring)", 
+            "channel": "nightly"}}
+          bearerToken: ${{ secrets.CALENDAR_TOKEN }}
+        env:
+          datestring: $(date +'%Y-%m-%d %H:%M:%S %Z')
+  
   F:
     runs-on: ubuntu-latest
     needs: [D, E]
