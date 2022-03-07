@@ -11,6 +11,11 @@ jobs:
   A:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v2
+      - name: get matrix
+        run: |
+          MATRIX=$(npx node ./get-matrix.js)
+          echo $MATRIX
       - run: echo "$(date +'%Y-%m-%d %H:%M:%S %Z')"
               
   D:
