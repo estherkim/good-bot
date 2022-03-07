@@ -3,6 +3,9 @@
 name: Esther workflow
 on:
   workflow_dispatch:
+    inputs:
+      override:
+        type: string
 
 jobs:
   A:
@@ -23,7 +26,7 @@ jobs:
   E:
     needs: D
     runs-on: ubuntu-latest
-    if: 2 <= needs.d.outputs.hello && needs.d.outputs.hello  <= 3
+    if: github.event.inputs.override || (2 <= needs.d.outputs.hello && needs.d.outputs.hello  <= 8)
     steps:
       - run: echo ${{ needs.D.outputs.hello }}
       - name: test
