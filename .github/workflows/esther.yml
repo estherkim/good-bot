@@ -20,9 +20,7 @@ jobs:
     steps:
       - name: set output
         id: day
-        run: |
-          DAY=$(date +%d)
-          echo "::set-output name=day::$DAY"
+        run: echo "::set-output name=day::$(date +%d)"
   E:
     needs: D
     runs-on: ubuntu-latest
