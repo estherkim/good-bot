@@ -27,3 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{ github.event.pull_request.title }}
+      - run: echo ${{ github.event.pull_request.body }}
+      - run: echo ${{ github.event.pull_request.description }}
+
