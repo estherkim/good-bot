@@ -1,40 +1,57 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Esther workflow
-
 on:
   workflow_dispatch:
     inputs:
-      first:
-        description: 'test choice'
-        required: false
-        type: choice
-        options:
-          - A
-          - B
+      override:
+        type: string
 
 jobs:
   A:
     runs-on: ubuntu-latest
     steps:
-      - run: echo Aaaaaaaa
-  B:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo Bbbb
-      - run: exit 1
-      - name: catch
-        if: ${{ failure() }}
-        uses: actions/checkout@v2
-        
-  C:
-    runs-on: ubuntu-latest
-    if: contains(fromJson('["A", "B"]'), 'B')
-    steps:
-      - run: echo Ccccc
-
+      - uses: actions/setup-node@v2
+      - name: get matrix
+        run: |
+          MATRIX=$(npx node ./get-matrix.js)
+          echo $MATRIX
+      - run: echo "$(date +'%Y-%m-%d %H:%M:%S %Z')"
+              
   D:
     runs-on: ubuntu-latest
-    if: github.repository == 'estherkim/good-bot' || github.repository == 'estherkim/bad-bot'
+    outputs:
+      hello: ${{ steps.day.outputs.day }}
     steps:
-      - run: echo Dddddddd
+      - name: set output
+        id: day
+        run: echo "::set-output name=day::$(date +%d)"
+  E:
+    needs: D
+    runs-on: ubuntu-latest
+    if: github.event.inputs.override || (2 <= needs.d.outputs.hello && needs.d.outputs.hello  <= 3)
+    steps:
+      - run: echo ${{ needs.D.outputs.hello }}
+      - name: test
+        env:
+          data: >-
+            {"release": 
+            {"name": "${{ needs.D.outputs.hello }}"}, 
+            "promotion": 
+            {"releaseName": ${{ needs.D.outputs.hello }}, 
+            "time": "time", 
+            "channel": "nightly"}}
+        run: echo ${{ env.data }}   
+      - name: test 2
+        env:
+          time: $(date +'%Y-%m-%d %H:%M:%S %Z')
+        run: echo ${{ env.time }}
+  
+  F:
+    runs-on: ubuntu-latest
+    needs: [D, E]
+    steps:
+      - run: echo D hello ${{ needs.D.outputs.hello }}
+      - run: echo E hello ${{ needs.E.outputs.hello }}
+
+

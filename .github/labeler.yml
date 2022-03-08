@@ -1,0 +1,5 @@
+qa:
+  - configs/versions.json
+
+'needs QA':
+  - configs/versions.json

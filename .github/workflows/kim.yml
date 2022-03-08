@@ -1,0 +1,32 @@
+
+# This is a basic workflow to help you get started with Actions
+
+name: Kim workflow
+
+on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - 'configs/versions.json'
+
+  workflow_dispatch:
+    inputs:
+      letter:
+        description: 'test choice'
+        required: false
+        type: choice
+        options:
+          - A
+          - B
+
+
+jobs:
+  A:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event.pull_request.title }}
+      - run: echo ${{ github.event.pull_request.body }}
+      - run: echo ${{ github.event.pull_request.files }}
+
