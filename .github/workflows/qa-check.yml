@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fail if not approved
-        if: ${{ github.event.review.state !== 'approved' }} 
+        if: ${{ github.event.review.state != 'approved' }} 
         run: exit 1
       - name: Check if approver is QA
         id: checkUserMember
