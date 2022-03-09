@@ -17,6 +17,14 @@ jobs:
           MATRIX=$(npx node ./get-matrix.js)
           echo $MATRIX
       - run: echo "$(date +'%Y-%m-%d %H:%M:%S %Z')"
+      
+  B:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo exit 1
+      - name: always run
+        if: ${{ always() }}
+        run: echo Bbbbb
               
   D:
     runs-on: ubuntu-latest
