@@ -12,7 +12,7 @@ jobs:
       - name: Fail if not approved
         if: ${{ github.event.review.state != 'approved' }} 
         run: exit 1
-      - name: Check if approver is QA
+      - name: Check approver team membership
         id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
         with:
