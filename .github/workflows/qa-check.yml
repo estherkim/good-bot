@@ -8,10 +8,10 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.ref_name }}
+      - run: echo ${{ github.ref }}
       
   is-approved:
-    if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
+    if: startsWith(github.ref, 'refs/heads/test-promote-1') || startsWith(github.ref_name, 'refs/heads/test-promote-2')
     runs-on: ubuntu-latest
     steps:
       - name: Fail if not approved
