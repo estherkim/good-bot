@@ -23,7 +23,7 @@ jobs:
     steps:
       - run: echo exit 1
       - name: always run
-        if: ${{ always() }}
+        # if: ${{ always() }}
         run: echo Bbbbb
               
   D:
