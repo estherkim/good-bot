@@ -21,7 +21,7 @@ jobs:
   B:
     runs-on: ubuntu-latest
     steps:
-      - run: echo exit 1
+      - run: exit 1
       - name: always run
         # if: ${{ always() }}
         run: echo Bbbbb
