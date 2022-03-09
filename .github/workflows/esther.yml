@@ -23,7 +23,8 @@ jobs:
     steps:
       - run: exit 1
       - name: always run
-        if: ${{ always() }}
+        if: 1 < 2
+        # if: ${{ always() }}
         run: echo Bbbbb
               
   D:
