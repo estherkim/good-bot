@@ -4,7 +4,12 @@ on:
   pull_request_review:
     types: [submitted]
 
-jobs:           
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.ref_name }}
+      
   is-approved:
     if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
     runs-on: ubuntu-latest
