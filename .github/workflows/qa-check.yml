@@ -5,14 +5,8 @@ on:
     types: [submitted]
 
 jobs:
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ github.event.review }}
-      - run: echo ${{ github.event.pull_request.head.ref }}
-      
   is-approved:
-    if: startsWith(github.ref, 'refs/heads/test-promote-1') || startsWith(github.ref_name, 'refs/heads/test-promote-2')
+    if: startsWith(github.event.pull_request.head.ref, 'test-promote-1') || startsWith(github.event.pull_request.head.ref, 'test-promote-2')
     runs-on: ubuntu-latest
     steps:
       - name: Fail if not approved
