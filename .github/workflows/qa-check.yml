@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Fail if not approved
         if: ${{ github.event.review.state != 'approved' }} 
-        run: exit 1
+        run: |
+          echo "Stable and Beta 1% promotions require QA approval"
+          exit 1
       - name: Check approver team membership
         id: checkUserMember
         uses: tspascoal/get-user-teams-membership@v1
@@ -22,4 +24,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.READ_ORG }}
       - name: Fail if approver is not QA
         if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        run: exit 1
+        run: |
+          echo "${{ github.event.reivew.user.login }} is not a member of @ampproject/amp-qa"
+          exit 1
