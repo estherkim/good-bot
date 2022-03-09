@@ -8,7 +8,7 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.ref }}
+      - run: echo ${{ github.event.review.pull_request.head.ref }}
       
   is-approved:
     if: startsWith(github.ref, 'refs/heads/test-promote-1') || startsWith(github.ref_name, 'refs/heads/test-promote-2')
