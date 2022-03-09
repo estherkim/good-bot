@@ -1,11 +1,11 @@
-name: Require QA Approval
+name: Require QA
 
 on:
   pull_request_review:
     types: [submitted]
 
 jobs:           
-  is-approved-by-qa:
+  is-approved:
     if: startsWith(github.ref_name, 'test-promote-1') || startsWith(github.ref_name, 'test-promote-2')
     runs-on: ubuntu-latest
     steps:
