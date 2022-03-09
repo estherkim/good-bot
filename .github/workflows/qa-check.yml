@@ -1,4 +1,4 @@
-name: Require QA
+name: Require QA Approval
 
 on:
   pull_request_review:
@@ -19,7 +19,7 @@ jobs:
           username: ${{ github.event.review.user.login }}
           organization: 'ampproject'
           team: 'amp-qa'
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.READ_ORG }}
       - name: Fail if approver is not QA
         if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         run: exit 1
