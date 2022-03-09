@@ -25,7 +25,7 @@ jobs:
       - name: debug
         run: echo ${{ steps.checkUserMember.outputs.isTeamMember }}
       - name: Fail if approver is not QA
-        if: ${{ !steps.checkUserMember.outputs.isTeamMember }}
+        if: ${{ steps.checkUserMember.outputs.isTeamMember == false }}
         run: |
           echo "${{ github.event.review.user.login }} is not a member of @ampproject/amp-qa"
           exit 1
