@@ -1,0 +1,40 @@
+name: matrix
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  A: 
+    runs-on: ubuntu-latest
+    outputs:
+      fruits: ${{ steps.fruits.outputs.fruits }}
+      veggies: ${{ steps.veggies.outputs.veggies }}
+    steps:
+      - id: fruits
+        run: |
+          FRUITS=["apple", "plum", "kiwi"]
+          echo "::set-output name=fruits::$FRUITS"
+          # echo "::set-output name=tasks::{\"include\":${TASKS}}"
+#       - id: veggies
+#         run: |
+#           echo "::set-output name=veggies::[\"include\":${TASKS}]"
+          
+
+  B:
+    needs: A
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fruit: ${{ needs.A.outputs.fruits }}
+    steps:
+      - run: echo ${{ matrix.fruit }}
+      
+#   C:
+#     needs: A
+#     runs-on: ubunut-latest
+#     strategy:
+#       matrix:
+#         veggie: ${{ needs.A.outputs.veggies }}
+#     steps:
+#       - run: echo ${{ matrix.veggie }}
+        
