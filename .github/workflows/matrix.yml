@@ -7,23 +7,21 @@ jobs:
   A: 
     runs-on: ubuntu-latest
     outputs:
-      fruits: ${{ steps.fruits.outputs.fruits }}
-      veggies: ${{ steps.veggies.outputs.veggies }}
-      color-fruits: ${{ steps.color-fruits.outputs.color-fruits }}
-      all: ${{ steps.all.outputs.all }}
+      fruits: ${{ steps.all.outputs.fruits }}
+      veggies: ${{ steps.all.outputs.veggies }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: lts/*
-      - run: |
+      - id: all
+        run: |
           ALL=$(npx node ./food-matrix.js)
           VEGGIES="$(echo $ALL | jq '.veggies')"
           FRUITS="$(echo $ALL | jq '.fruits')"
+          echo "::set-output name=veggies::{\"include\":${VEGGIES}}"
+          echo "::set-output name=fruits::{\"include\":${FRUITS}}"
           
-          echo $VEGGIES
-          echo $FRUITS
-
 #       - id: fruits
 #         run: |
 #           FRUITS="['apple', 'plum', 'kiwi']"
@@ -68,18 +66,18 @@ jobs:
 #     steps:
 #       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
 
-#   E:
-#     needs: A
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix: ${{ fromJson(needs.A.outputs.all.fruits) }}
-#     steps:
-#       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
+  E:
+    needs: A
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.A.outputs.fruits) }}
+    steps:
+      - run: echo ${{matrix.color}} ${{ matrix.fruit }}
 
-#   F:
-#     needs: A
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix: ${{ fromJson(needs.A.outputs.all.veggies) }}
-#     steps:
-#       - run: echo ${{matrix.color}} ${{ matrix.veggie }}        
+  F:
+    needs: A
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.A.outputs.veggies) }}
+    steps:
+      - run: echo ${{matrix.color}} ${{ matrix.veggie }}        
