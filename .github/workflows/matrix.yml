@@ -12,23 +12,33 @@ jobs:
       color-fruits: ${{ steps.color-fruits.outputs.color-fruits }}
       all: ${{ steps.all.outputs.all }}
     steps:
-      - id: fruits
-        run: |
-          FRUITS="['apple', 'plum', 'kiwi']"
-          echo "::set-output name=fruits::$FRUITS"
-      - id: veggies
-        run: |
-          VEGGIES="['onion', 'celery', 'carrot']"
-          echo "::set-output name=veggies::$VEGGIES"
-      - id: color-fruits
-        run: |
-          COLORFRUITS="[{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}]"
-          echo "::set-output name=color-fruits::{\"include\":${COLORFRUITS}}"
-      - id: all
-        run: |
-          ALL="{'fruits': [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], 'veggies': [{'color': 'pink', 'veggie': 'onion'}, {'color': 'pink', 'veggie': 'tree'}]}"
-          echo $ALL | jq '.'
-          echo "::set-output name=all::{\"include\":$ALL}"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      - run: |
+          npx node ./food-matrix.js
+          echo "${{ env.FRUITS }}"
+          echo "${{ env.VEGGIES }}"
+          
+          
+#       - id: fruits
+#         run: |
+#           FRUITS="['apple', 'plum', 'kiwi']"
+#           echo "::set-output name=fruits::$FRUITS"
+#       - id: veggies
+#         run: |
+#           VEGGIES="['onion', 'celery', 'carrot']"
+#           echo "::set-output name=veggies::$VEGGIES"
+#       - id: color-fruits
+#         run: |
+#           COLORFRUITS="[{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}]"
+#           echo "::set-output name=color-fruits::{\"include\":${COLORFRUITS}}"
+#       - id: all
+#         run: |
+#           ALL="{'fruits': [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], 'veggies': [{'color': 'pink', 'veggie': 'onion'}, {'color': 'pink', 'veggie': 'tree'}]}"
+#           echo $ALL | jq '.'
+#           echo "::set-output name=all::{\"include\":$ALL}"
 
 #   B:
 #     needs: A
