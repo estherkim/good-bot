@@ -9,6 +9,7 @@ jobs:
     outputs:
       fruits: ${{ steps.fruits.outputs.fruits }}
       veggies: ${{ steps.veggies.outputs.veggies }}
+      color-fruits: ${{ steps.color-fruits.outputs.color-fruits }}
     steps:
       - id: fruits
         run: |
@@ -18,23 +19,34 @@ jobs:
         run: |
           VEGGIES="['onion', 'celery', 'carrot']"
           echo "::set-output name=veggies::$VEGGIES"
-          
+      - id: color-fruits
+        run: |
+          COLORFRUITS="[{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}]"
+          echo "::set-output name=color-fruits::{\"include\":${COLORFRUITS}}"
 
-  B:
+#   B:
+#     needs: A
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         fruit: ${{ fromJson(needs.A.outputs.fruits) }}
+#     steps:
+#       - run: echo ${{ matrix.fruit }}
+      
+#   C:
+#     needs: A
+#     runs-on: ubunut-latest
+#     strategy:
+#       matrix:
+#         veggie: ${{ fromJson(needs.A.outputs.veggies) }}
+#     steps:
+#       - run: echo ${{ matrix.veggie }}
+
+  D:
     needs: A
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        fruit: ${{ fromJson(needs.A.outputs.fruits) }}
+      matrix: ${{ fromJson(needs.A.outputs.color-fruits) }}
     steps:
-      - run: echo ${{ matrix.fruit }}
-      
-  C:
-    needs: A
-    runs-on: ubunut-latest
-    strategy:
-      matrix:
-        veggie: ${{ fromJson(needs.A.outputs.veggies) }}
-    steps:
-      - run: echo ${{ matrix.veggie }}
+      - run: echo ${{matrix.color}} ${{ matrix.fruit }}
         
