@@ -27,7 +27,8 @@ jobs:
       - id: all
         run: |
           ALL="{'fruits': [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], 'veggies': [{'color': 'pink', 'veggie': 'onion'}, {'color': 'pink', 'veggie': 'tree'}]}"
-          echo "::set-output name=all::{\"include\":$ALL}"        
+          echo $ALL | jq '.'
+          echo "::set-output name=all::{\"include\":$ALL}"
 
 #   B:
 #     needs: A
@@ -55,18 +56,18 @@ jobs:
 #     steps:
 #       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
 
-  E:
-    needs: A
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.A.outputs.all.fruits) }}
-    steps:
-      - run: echo ${{matrix.color}} ${{ matrix.fruit }}
+#   E:
+#     needs: A
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.A.outputs.all.fruits) }}
+#     steps:
+#       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
 
-  F:
-    needs: A
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.A.outputs.all.veggies) }}
-    steps:
-      - run: echo ${{matrix.color}} ${{ matrix.veggie }}        
+#   F:
+#     needs: A
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.A.outputs.all.veggies) }}
+#     steps:
+#       - run: echo ${{matrix.color}} ${{ matrix.veggie }}        
