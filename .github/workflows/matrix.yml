@@ -20,6 +20,9 @@ jobs:
           npx node ./food-matrix.js
           echo "${{ env.FRUITS }}"
           echo "${{ env.VEGGIES }}"
+        env:
+          FRUITS: ''
+          VEGGIES: ''
           
           
 #       - id: fruits
