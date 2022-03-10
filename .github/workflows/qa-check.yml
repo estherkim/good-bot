@@ -10,8 +10,8 @@ jobs:
     steps:
 #       - run: echo ${{ fromJson(github.event.pull_request) }}
 #       - run: echo ${{ fromJson(github.event.pull_request.reviews) }}
-      - run: echo ${{ toJson(github.event.pull_request) }}
-      - run: echo ${{ toJson(github.event.pull_request.reviews) }}
+      - run: echo "${{ toJson(github.event.pull_request) }}"
+      - run: echo "${{ toJson(github.event.review) }}"
 
 #   is-approved:
 #     if: startsWith(github.event.pull_request.head.ref, 'test-promote-1') || startsWith(github.event.pull_request.head.ref, 'test-promote-2')
