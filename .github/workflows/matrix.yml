@@ -17,14 +17,13 @@ jobs:
         with:
           node-version: lts/*
       - run: |
-          npx node ./food-matrix.js
-          echo "${{ env.FRUITS }}"
-          echo "${{ env.VEGGIES }}"
-        env:
-          FRUITS: ''
-          VEGGIES: ''
+          ALL=$(npx node ./food-matrix.js)
+          VEGGIES="$(echo $ALL | jq '.veggies')"
+          FRUITS="$(echo $ALL | jq '.fruits')"
           
-          
+          echo $VEGGIES
+          echo $FRUITS
+
 #       - id: fruits
 #         run: |
 #           FRUITS="['apple', 'plum', 'kiwi']"
