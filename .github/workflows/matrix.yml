@@ -14,10 +14,10 @@ jobs:
         run: |
           FRUITS="['apple', 'plum', 'kiwi']"
           echo "::set-output name=fruits::$FRUITS"
-          # echo "::set-output name=tasks::{\"include\":${TASKS}}"
-#       - id: veggies
-#         run: |
-#           echo "::set-output name=veggies::[\"include\":${TASKS}]"
+      - id: veggies
+        run: |
+          VEGGIES="['onion', 'celery', 'carrot']"
+          echo "::set-output name=veggies::$VEGGIES"
           
 
   B:
@@ -29,12 +29,12 @@ jobs:
     steps:
       - run: echo ${{ matrix.fruit }}
       
-#   C:
-#     needs: A
-#     runs-on: ubunut-latest
-#     strategy:
-#       matrix:
-#         veggie: ${{ needs.A.outputs.veggies }}
-#     steps:
-#       - run: echo ${{ matrix.veggie }}
+  C:
+    needs: A
+    runs-on: ubunut-latest
+    strategy:
+      matrix:
+        veggie: ${{ fromJson(needs.A.outputs.veggies) }}
+    steps:
+      - run: echo ${{ matrix.veggie }}
         
