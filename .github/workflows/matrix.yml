@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        fruit: ${{ needs.A.outputs.fruits }}
+        fruit: ${{ fromJson(needs.A.outputs.fruits) }}
     steps:
       - run: echo ${{ matrix.fruit }}
       
