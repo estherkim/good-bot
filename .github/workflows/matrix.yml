@@ -19,8 +19,8 @@ jobs:
           ALL=$(npx node ./food-matrix.js)
           VEGGIES="$(echo $ALL | jq '.veggies')"
           FRUITS="$(echo $ALL | jq '.fruits')"
-          echo "::set-output name=veggies::{\"include\":${VEGGIES}}"
-          echo "::set-output name=fruits::{\"include\":${FRUITS}}"
+          echo "::set-output name=veggies::{\"include\":"${VEGGIES}"}"
+          echo "::set-output name=fruits::{\"include\":"${FRUITS}"}"
           
 #       - id: fruits
 #         run: |
