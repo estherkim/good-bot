@@ -12,7 +12,7 @@ jobs:
     steps:
       - id: fruits
         run: |
-          FRUITS=["apple", "plum", "kiwi"]
+          FRUITS="['apple', 'plum', 'kiwi']"
           echo "::set-output name=fruits::$FRUITS"
           # echo "::set-output name=tasks::{\"include\":${TASKS}}"
 #       - id: veggies
