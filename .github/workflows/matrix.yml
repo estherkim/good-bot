@@ -21,50 +21,6 @@ jobs:
           FRUITS="$(echo $ALL | jq '.fruits')"
           echo "::set-output name=veggies::{"include":"${VEGGIES}"}"
           echo "::set-output name=fruits::{"include":"${FRUITS}"}"
-          
-#       - id: fruits
-#         run: |
-#           FRUITS="['apple', 'plum', 'kiwi']"
-#           echo "::set-output name=fruits::$FRUITS"
-#       - id: veggies
-#         run: |
-#           VEGGIES="['onion', 'celery', 'carrot']"
-#           echo "::set-output name=veggies::$VEGGIES"
-#       - id: color-fruits
-#         run: |
-#           COLORFRUITS="[{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}]"
-#           echo "::set-output name=color-fruits::{\"include\":${COLORFRUITS}}"
-#       - id: all
-#         run: |
-#           ALL="{'fruits': [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], 'veggies': [{'color': 'pink', 'veggie': 'onion'}, {'color': 'pink', 'veggie': 'tree'}]}"
-#           echo $ALL | jq '.'
-#           echo "::set-output name=all::{\"include\":$ALL}"
-
-#   B:
-#     needs: A
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         fruit: ${{ fromJson(needs.A.outputs.fruits) }}
-#     steps:
-#       - run: echo ${{ matrix.fruit }}
-      
-#   C:
-#     needs: A
-#     runs-on: ubunut-latest
-#     strategy:
-#       matrix:
-#         veggie: ${{ fromJson(needs.A.outputs.veggies) }}
-#     steps:
-#       - run: echo ${{ matrix.veggie }}
-
-#   D:
-#     needs: A
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix: ${{ fromJson(needs.A.outputs.color-fruits) }}
-#     steps:
-#       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
 
   E:
     needs: A
