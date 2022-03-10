@@ -8,8 +8,8 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ fromJson(github.event.pull_request) }}
-      - run: echo ${{ fromJson(github.event.pull_request.reviews) }}
+#       - run: echo ${{ fromJson(github.event.pull_request) }}
+#       - run: echo ${{ fromJson(github.event.pull_request.reviews) }}
       - run: echo ${{ toJson(github.event.pull_request) }}
       - run: echo ${{ toJson(github.event.pull_request.reviews) }}
 
