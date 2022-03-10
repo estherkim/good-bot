@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=color-fruits::{\"include\":${COLORFRUITS}}"
       - id: all
         run: |
-          ALL="{fruits: [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], veggies: [{'color': 'pink':, 'veggie': 'onion'}, {'color': 'pink':, 'veggie': 'tree'}]}"
+          ALL="{'fruits': [{'color': 'red', 'fruit': 'apple'}, {'color': 'red', 'fruit': 'plum'}], 'veggies': [{'color': 'pink', 'veggie': 'onion'}, {'color': 'pink', 'veggie': 'tree'}]}"
           echo "::set-output name=all::{\"include\":$ALL}"        
 
 #   B:
