@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger kim.yml
-      - run: |
+        run: |
           curl -i -H "Authorization: Basic ${{ secrets.ACCESS_TOKEN }}" \
           -d '{ \
               "ref": "main", \
