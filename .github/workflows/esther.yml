@@ -8,28 +8,43 @@ on:
         type: string
 
 jobs:
-  C:
+#   C:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Trigger kim.yml
+#         uses: fjogeleit/http-request-action@v1
+#         with:
+#           url: 'https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches'
+#           bearerToken: ${{ secrets.ACCESS_TOKEN }}
+#           # data: '{"ref":"main","inputs":{"a":"hello","b":"world"}}'
+#           data: ${{ toJSON(env.DATA) }}
+#         env:
+#           DATA: |
+#             {
+#               "ref": "main",
+#               "inputs": 
+#               {
+#                 "a": "hello",
+#                 "b": "world"
+#               }
+#             }
+            
+  C-2:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger kim.yml
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches'
-          bearerToken: ${{ secrets.ACCESS_TOKEN }}
-          # data: '{"ref":"main","inputs":{"a":"hello","b":"world"}}'
-          data: ${{ toJSON(env.DATA) }}
-        env:
-          DATA: |
-            {
-              "ref": "main",
-              "inputs": 
-              {
-                "a": "hello",
-                "b": "world"
-              }
-            }
-            
-
+      - run: |
+          curl -i -H "Authorization: Basic ${{ secrets.ACCESS_TOKEN }}" \
+          -d '{ \
+              "ref": "main", \
+              "inputs": \
+                { \
+                  "a": "hello", \
+                  "b": "world" \
+                } \
+              }' \
+          https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches  
+          
   A:
     runs-on: ubuntu-latest
     steps:
