@@ -19,7 +19,7 @@ jobs:
           # data: '{"ref":"main","inputs":{"a":"hello","b":"world"}}'
           data: ${{ toJSON(env.DATA) }}
         env:
-          DATA: >-
+          DATA: |
             {
               "ref": "main",
               "inputs": 
