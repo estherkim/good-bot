@@ -34,7 +34,9 @@ jobs:
     steps:
       - name: Trigger kim.yml
         run: |
-          curl -i -H "Authorization: Basic ${{ secrets.ACCESS_TOKEN }}" \
+          curl -X \
+          -H "Authorization: Basic ${{ secrets.ACCESS_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
           -d '{ \
               "ref": "main", \
               "inputs": \
