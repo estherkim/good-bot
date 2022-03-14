@@ -18,12 +18,12 @@ jobs:
           bearerToken: ${{ secrets.ACCESS_TOKEN }}
           data: >
             {
-              "ref": "main",
-              "inputs":
-              {
-                "a": "hello",
-                "b": "world",
-              }
+            "ref": "main",
+            "inputs":
+            {
+            "a": "hello",
+            "b": "world",
+            }
             }
 
 
