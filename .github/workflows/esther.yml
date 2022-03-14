@@ -16,7 +16,7 @@ jobs:
         with:
           url: 'https://api.github.com/repos/estherkim/good-bot/actions/workflows/kim.yml/dispatches'
           bearerToken: ${{ secrets.ACCESS_TOKEN }}
-          data: ${{toJson( {"ref":"main","inputs":{"a":"hello","b":"world"}} )}}
+          data: ${{ toJson('{"ref":"main","inputs":{"a":"hello","b":"world"}}') }}
 
 
   A:
