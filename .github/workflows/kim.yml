@@ -33,3 +33,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo ${{github.event.inputs.a}} ${{github.event.inputs.b}}
+      
+      
+  C:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.a == 'run'
+    steps:
+      - run: echo hello
+      
+  D:
+    needs: [B, C]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo world
