@@ -12,13 +12,12 @@ on:
 
   workflow_dispatch:
     inputs:
-      letter:
-        description: 'test choice'
-        required: false
-        type: choice
-        options:
-          - A
-          - B
+      a:
+        type: string
+        required: true
+      b:
+        type: string
+        required: true
 
 
 jobs:
@@ -30,3 +29,8 @@ jobs:
       - run: echo ${{ github.event.pull_request.body }}
       - run: echo ${{ github.event.pull_request.files }}
 
+  B:
+    if: github.event.workflow_dispatch
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{github.event.workflow_dispatch.a}} ${{github.event.workflow_dispatch.b}}
