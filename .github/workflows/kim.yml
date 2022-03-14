@@ -32,4 +32,4 @@ jobs:
   B:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{github.event.workflow_dispatch.a}} ${{github.event.workflow_dispatch.b}}
+      - run: echo ${{github.event.inputs.a}} ${{github.event.inputs.b}}
