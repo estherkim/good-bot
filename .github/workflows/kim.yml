@@ -14,10 +14,12 @@ on:
     inputs:
       a:
         type: string
-        required: true
       b:
         type: string
-        required: true
+      amp-version:
+        type: string
+      channel:
+        type: string
 
 
 jobs:
@@ -46,3 +48,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo world
+      
+  E:
+    runs-on: ubunut-latest
+    steps:
+    - name: Create event on release calendar
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: '${{ secrets.CALENDAR_URI }}'
+        customHeeaders: '{"Authorization": "Basic ${{ secrets.CALENDAR_TOKEN }}"}'
+        data: >
+          {
+            "release":
+            {
+              "name": "${{ github.event.inputs.amp-version }}"
+            },
+            "promotion":
+            {
+              "releaseName": "${{ github.event.inputs.amp-version }}",
+              "time": "$(date +'%Y-%m-%d %H:%M:%S %Z')",
+              "channel": "${{ github.event.inputs.channel }}"
+            }
+          }
+      
