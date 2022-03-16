@@ -5,7 +5,7 @@ on:
   
 jobs:
   is-approved-by-qa:
-    if: "!startsWith(github.head_ref, 'test-job-1') && !startsWith(github.head_ref, 'test-job-2')"
+    # if: "!startsWith(github.head_ref, 'test-job-1') && !startsWith(github.head_ref, 'test-job-2')"
     runs-on: ubuntu-latest
     steps:
     - run: |
