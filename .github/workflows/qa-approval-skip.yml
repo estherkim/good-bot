@@ -1,11 +1,12 @@
 name: Require QA Approval
 
 on:
-  pull-request:
+  pull_request:
   
 jobs:
   is-approved-by-qa:
     if: !startsWith(github.event.pull_request.head.ref, 'test-job-1') && !startsWith(github.event.pull_request.head.ref, 'test-job-2')
+    runs-on: ubuntu-latest
     steps:
     - run: |
         echo ${{ github.head_ref }}
