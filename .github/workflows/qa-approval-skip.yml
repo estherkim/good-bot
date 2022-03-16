@@ -1,0 +1,13 @@
+name: Require QA Approval
+
+on:
+  pull-request:
+  
+jobs:
+  is-approved-by-qa:
+    if: !startsWith(github.event.pull_request.head.ref, 'test-job-1') && !startsWith(github.event.pull_request.head.ref, 'test-job-2')
+    steps:
+    - run: |
+        echo ${{ github.head_ref }}
+        echo ${{ github.event.pull_request.head.ref }}
+        echo "This PR does not require approval from QA"
