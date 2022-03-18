@@ -27,11 +27,13 @@ jobs:
   D:
     needs: A
     runs-on: ubuntu-latest
-    # if: needs.A.outputs.skips
+    # if: fromJson(needs.A.outputs.skips)
 #     strategy:
 #       matrix: ${{ fromJson(needs.A.outputs.skips) }}
     steps:
       - run: echo ${{ fromJson(needs.A.outputs.skips) }}
+      - run: echo ${{ fromJson(needs.A.outputs.skips.include) }}
+
 
 #   E:
 #     needs: A
