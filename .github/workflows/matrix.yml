@@ -22,7 +22,7 @@ jobs:
           FRUITS="$(echo $ALL | jq '.fruits')"
           echo "::set-output name=veggies::{"include":"${VEGGIES}"}"
           echo "::set-output name=fruits::{"include":"${FRUITS}"}"
-          echo "::set-output name=skips::{"include":"[]"}
+          echo "::set-output name=skips::{"include":"[]"}"
           
   D:
     needs: A
