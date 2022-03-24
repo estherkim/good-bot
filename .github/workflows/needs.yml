@@ -7,8 +7,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      first:
-        type: string
+      pull_number:
+        type: number
       second:
         type: string
   
@@ -19,8 +19,9 @@ on:
 jobs:
   A:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged || github.event.inputs.pull_number
     steps:
-      - run: echo "$(${{ github.event.inputs.first }} +'%Y-%m-%d %H:%M:%S %Z')"
+      - run: echo "${{ github.event.pull_request.number }}" "${{ github.event.inputs.pull_number }}"
       - run: |
           echo "${{ github.event.pull_request.title }}"
           echo "${{ github.event.pull_request.body }}" 
