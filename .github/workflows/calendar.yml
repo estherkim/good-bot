@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: calendar
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      amp-version:
+        type: string
+        required: true
+      time:
+        type: string
+        required: true
+      channel:
+        type: choice
+        required: true
+        options:
+          - 'nightly'
+          - 'beta'
+          - 'stable'
+          - 'lts'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  release-calendar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create event on release calendar
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: '${{ secrets.CALENDAR_URI }}'
+          customHeaders: '{"Authorization": "Basic ${{ secrets.CALENDAR_TOKEN }}"}'
+          data: >
+            {
+              "release":
+              {
+                "name": "${{ github.event.inputs.amp-version }}"
+              },
+              "promotion":
+              {
+                "releaseName": "${{ github.event.inputs.amp-version }}",
+                "time": "$(date -d ${{ github.event.inputs.time }} +'%Y-%m-%d %H:%M:%S %Z')",
+                "channel": "${{ github.event.inputs.channel }}"
+              }
+            }
