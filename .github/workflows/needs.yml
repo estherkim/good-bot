@@ -20,7 +20,7 @@ jobs:
   A:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "$(date -d ${{ github.event.inputs.time }})"
+      - run: echo "$(date -d ${{ github.event.inputs.time }} +'%Y-%m-%d %H:%M:%S %Z')"
       - run: echo "${{ github.event.pull_request.number }}" "${{ github.event.inputs.pull_number }}"
       - run: |
           echo "${{ github.event.pull_request.title }}"
