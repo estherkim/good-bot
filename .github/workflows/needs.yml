@@ -9,7 +9,7 @@ on:
     inputs:
       pull_number:
         type: number
-      second:
+      time:
         type: string
   
   pull_request:
@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged || github.event.inputs.pull_number
     steps:
+      - run: echo "date -d ${{ github.event.inputs.time }}"
       - run: echo "${{ github.event.pull_request.number }}" "${{ github.event.inputs.pull_number }}"
       - run: |
           echo "${{ github.event.pull_request.title }}"
