@@ -9,6 +9,7 @@ jobs:
     outputs:
       fruits: ${{ steps.all.outputs.fruits }}
       veggies: ${{ steps.all.outputs.veggies }}
+      skips: ${{ steps.all.outputs.skips }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,19 +22,31 @@ jobs:
           FRUITS="$(echo $ALL | jq '.fruits')"
           echo "::set-output name=veggies::{"include":"${VEGGIES}"}"
           echo "::set-output name=fruits::{"include":"${FRUITS}"}"
-
-  E:
+          echo "::set-output name=skips::{"include":"[]"}"
+          
+  D:
     needs: A
     runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.A.outputs.fruits) }}
+    # if: fromJson(needs.A.outputs.skips)
+#     strategy:
+#       matrix: ${{ fromJson(needs.A.outputs.skips) }}
     steps:
-      - run: echo ${{matrix.color}} ${{ matrix.fruit }}
+      - run: echo ${{ fromJson(needs.A.outputs.skips) }}
+      - run: echo ${{ fromJson(needs.A.outputs.skips.include) }}
 
-  F:
-    needs: A
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: ${{ fromJson(needs.A.outputs.veggies) }}
-    steps:
-      - run: echo ${{matrix.color}} ${{ matrix.veggie }}        
+
+#   E:
+#     needs: A
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.A.outputs.fruits) }}
+#     steps:
+#       - run: echo ${{matrix.color}} ${{ matrix.fruit }}
+
+#   F:
+#     needs: A
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix: ${{ fromJson(needs.A.outputs.veggies) }}
+#     steps:
+#       - run: echo ${{matrix.color}} ${{ matrix.veggie }}        

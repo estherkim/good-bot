@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: On Merge
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      pull_number:
+        type: number
+      second:
+        type: string
+  
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  A:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged || github.event.inputs.pull_number
+    steps:
+      - run: echo "${{ github.event.pull_request.number }}" "${{ github.event.inputs.pull_number }}"
+      - run: |
+          echo "${{ github.event.pull_request.title }}"
+          echo "${{ github.event.pull_request.body }}" 
+          echo "${{ github.event.pull_request.number }}"
+
