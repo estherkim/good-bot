@@ -25,13 +25,13 @@ jobs:
         run: |
           # check that the format is `YYMMDD.N`
           if ! [[ "${{ github.event.inputs.build-number }}" =~ ^[[:digit:]]{6}.[[:digit:]]+$ ]]; then
-            echo "ERROR: `build-number` input has an incorrect format. Please check that the format is `YYMMDD.N`"
+            echo "ERROR: Build number ${{ github.event.inputs.build-number }} has an incorrect format. Please check that the format is YYMMDD.N"
             exit 1
           fi
 
           # check that build branch exists
           if ! [[ $(git rev-parse --verify --quiet origin/${{ github.event.inputs.build-number }}) ]]; then
-            echo "ERROR: Could not find branch `origin/${{ github.event.inputs.build-number }}`. Please check that it exists"
+            echo "ERROR: Could not find branch origin/${{ github.event.inputs.build-number }}. Please check that it exists"
             exit 1
           fi
 
