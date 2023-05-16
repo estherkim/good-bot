@@ -25,7 +25,7 @@ jobs:
         run: |
           # check that the format is `YYMMDD.N`
           if ! [[ "${{ github.event.inputs.build-number }}" =~ ^[[:digit:]]{6}.[[:digit:]]+$ ]]; then
-            echo "ERROR: `build-number` input has an incorrect format. Please check that the format is `YYMMDD.N`
+            echo "ERROR: `build-number` input has an incorrect format. Please check that the format is `YYMMDD.N`"
             exit 1
           fi
 
